@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Урок: Моє літо</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAF7F2;
+    --surface:#FFFFFF;
+    --ink:#2B3A3A;
+    --ink-muted:#6E7C7C;
+    --primary:#3D7068;
+    --primary-dark:#2C534D;
+    --accent:#E8A758;
+    --accent-soft:#F6E3C4;
+    --line:#E3DDD2;
+    --reveal-bg:#EAF3EF;
+    --reveal-border:#BFD9CD;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Atkinson Hyperlegible', sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .app{
+    max-width:760px;
+    margin:0 auto;
+    padding:24px 20px 80px;
+  }
+  header.top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+  }
+  .lesson-title{
+    font-size:1.05rem;
+    font-weight:700;
+    color:var(--primary-dark);
+  }
+  .lesson-title span{
+    display:block;
+    font-weight:400;
+    font-size:0.85rem;
+    color:var(--ink-muted);
+    margin-top:2px;
+  }
+  button.teacher-btn{
+    background:var(--surface);
+    border:1.5px solid var(--line);
+    color:var(--ink-muted);
+    font-family:inherit;
+    font-size:0.85rem;
+    padding:9px 14px;
+    border-radius:999px;
+    cursor:pointer;
+  }
+  button.teacher-btn:hover{border-color:var(--primary);color:var(--primary-dark);}
+
+  .progress{
+    display:flex;
+    gap:6px;
+    margin-bottom:28px;
+    flex-wrap:wrap;
+  }
+  .dot{
+    flex:1;
+    min-width:18px;
+    height:6px;
+    border-radius:4px;
+    background:var(--line);
+    transition:background .25s ease;
+  }
+  .dot.done{background:var(--primary);opacity:.55;}
+  .dot.active{background:var(--primary);}
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:28px 26px;
+    animation:fadeIn .3s ease;
+  }
+  @keyframes fadeIn{
+    from{opacity:0; transform:translateY(6px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .card{animation:none;}
+  }
+
+  .step-label{
+    font-size:0.78rem;
+    color:var(--primary);
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  h1.step-title{
+    font-size:1.5rem;
+    margin:0 0 14px;
+    color:var(--primary-dark);
+    max-width:32ch;
+  }
+  h2.block-title{
+    font-size:1.05rem;
+    color:var(--primary-dark);
+    margin:26px 0 10px;
+  }
+  h2.block-title:first-of-type{margin-top:4px;}
+  p{max-width:68ch;}
+  .muted{color:var(--ink-muted); font-size:0.92rem;}
+
+  .task{
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    margin:14px 0;
+    background:#FCFBF8;
+  }
+  .task .instr{
+    font-size:0.88rem;
+    color:var(--ink-muted);
+    margin:0 0 10px;
+  }
+
+  textarea, input[type=text]{
+    width:100%;
+    font-family:inherit;
+    font-size:0.95rem;
+    color:var(--ink);
+    border:1.5px solid var(--line);
+    border-radius:8px;
+    padding:10px 12px;
+    background:#fff;
+    resize:vertical;
+  }
+  textarea:focus, input[type=text]:focus, select:focus, button:focus{
+    outline:3px solid var(--accent-soft);
+    outline-offset:1px;
+    border-color:var(--accent);
+  }
+
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0;}
+  .chip{
+    background:var(--accent-soft);
+    border:1px solid var(--accent);
+    color:var(--primary-dark);
+    font-family:inherit;
+    font-size:0.85rem;
+    padding:7px 12px;
+    border-radius:999px;
+    cursor:pointer;
+  }
+  .chip:hover{background:var(--accent);}
+
+  .reveal-btn, .check-btn, .ghost-btn{
+    font-family:inherit;
+    font-size:0.88rem;
+    border-radius:8px;
+    padding:9px 14px;
+    cursor:pointer;
+    border:1.5px solid var(--primary);
+    background:var(--primary);
+    color:#fff;
+    margin-top:6px;
+  }
+  .reveal-btn:hover, .check-btn:hover{background:var(--primary-dark); border-color:var(--primary-dark);}
+  .ghost-btn{background:transparent; color:var(--primary); border:1.5px solid var(--line);}
+  .ghost-btn:hover{border-color:var(--primary);}
+
+  .answer-box{
+    display:none;
+    margin-top:10px;
+    background:var(--reveal-bg);
+    border:1px solid var(--reveal-border);
+    border-radius:8px;
+    padding:10px 14px;
+    font-size:0.92rem;
+  }
+  .answer-box.show{display:block;}
+
+  table.vocab{
+    width:100%;
+    border-collapse:collapse;
+    font-size:0.9rem;
+    margin:10px 0 4px;
+  }
+  table.vocab th, table.vocab td{
+    text-align:left;
+    padding:9px 8px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  table.vocab th{color:var(--ink-muted); font-weight:700; font-size:0.8rem;}
+
+  .reading-text{
+    background:#FCFBF8;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:20px 22px;
+    max-width:68ch;
+  }
+  .reading-text p{margin:0 0 14px;}
+  .reading-text p:last-child{margin-bottom:0;}
+
+  .order-list{list-style:none; margin:10px 0; padding:0;}
+  .order-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:#fff;
+    border:1.5px solid var(--line);
+    border-radius:8px;
+    padding:10px 12px;
+    margin-bottom:8px;
+    font-size:0.92rem;
+  }
+  .order-item.correct{border-color:var(--reveal-border); background:var(--reveal-bg);}
+  .order-item .num{
+    font-weight:700;
+    color:var(--primary);
+    min-width:20px;
+  }
+  .order-item .txt{flex:1;}
+  .order-controls{display:flex; gap:4px;}
+  .order-controls button{
+    width:28px; height:28px;
+    border-radius:6px;
+    border:1.5px solid var(--line);
+    background:#fff;
+    cursor:pointer;
+    font-size:0.85rem;
+    line-height:1;
+  }
+  .order-controls button:hover{border-color:var(--primary); color:var(--primary);}
+  .feedback-note{font-size:0.85rem; color:var(--ink-muted); margin-top:8px;}
+
+  .level-tabs{display:flex; gap:8px; margin-bottom:12px;}
+  .level-tab{
+    font-family:inherit;
+    font-size:0.88rem;
+    padding:8px 14px;
+    border-radius:999px;
+    border:1.5px solid var(--line);
+    background:#fff;
+    cursor:pointer;
+    color:var(--ink-muted);
+  }
+  .level-tab.active{background:var(--primary); border-color:var(--primary); color:#fff;}
+  .level-pane{display:none;}
+  .level-pane.active{display:block;}
+
+  .nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:22px;
+  }
+  .nav button{
+    font-family:inherit;
+    font-size:0.95rem;
+    padding:11px 20px;
+    border-radius:999px;
+    cursor:pointer;
+    border:1.5px solid var(--primary);
+  }
+  .nav .next{background:var(--primary); color:#fff;}
+  .nav .next:hover{background:var(--primary-dark);}
+  .nav .prev{background:#fff; color:var(--primary);}
+  .nav .prev:hover{background:var(--accent-soft);}
+  .nav button:disabled{opacity:0; pointer-events:none;}
+
+  .agenda-list{list-style:none; padding:0; margin:18px 0;}
+  .agenda-list li{
+    display:flex;
+    gap:12px;
+    align-items:baseline;
+    padding:9px 0;
+    border-bottom:1px solid var(--line);
+    font-size:0.95rem;
+  }
+  .agenda-list li:last-child{border-bottom:none;}
+  .agenda-list .n{color:var(--primary); font-weight:700; min-width:22px;}
+
+  .radio-row{display:flex; flex-direction:column; gap:10px; margin:12px 0;}
+  .radio-row label{
+    display:flex; gap:10px; align-items:flex-start;
+    border:1.5px solid var(--line);
+    border-radius:8px;
+    padding:12px 14px;
+    cursor:pointer;
+    font-size:0.92rem;
+  }
+  .radio-row input{margin-top:3px;}
+  .radio-row label.picked{border-color:var(--primary); background:var(--reveal-bg);}
+
+  /* teacher modal */
+  .overlay{
+    display:none;
+    position:fixed; inset:0;
+    background:rgba(43,58,58,0.45);
+    z-index:50;
+    padding:24px;
+    overflow-y:auto;
+  }
+  .overlay.show{display:block;}
+  .modal{
+    max-width:760px;
+    margin:0 auto;
+    background:var(--surface);
+    border-radius:var(--radius);
+    padding:30px 28px 34px;
+  }
+  .modal h2{color:var(--primary-dark); margin-top:0;}
+  .modal h3{color:var(--primary-dark); font-size:1rem; margin:22px 0 8px;}
+  .modal-close{
+    float:right;
+    background:transparent;
+    border:1.5px solid var(--line);
+    border-radius:999px;
+    padding:7px 14px;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  .modal ul{padding-left:20px;}
+  .modal li{margin-bottom:6px; font-size:0.93rem;}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header class="top">
+    <div class="lesson-title">Урок української мови: «Моє літо»<span>8–9 клас · 60 хвилин</span></div>
+    <button class="teacher-btn" id="openTeacher" type="button">Матеріали для вчителя</button>
+  </header>
+
+  <div class="progress" id="progress"></div>
+
+  <div class="card" id="stepCard"></div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <button class="modal-close" id="closeTeacher" type="button">Закрити ✕</button>
+    <h2>Матеріали для вчителя</h2>
+
+    <h3>Мета уроку</h3>
+    <p>Розвиток усного та писемного мовлення учениці: розуміння прочитаного тексту, побудова речень, відповіді на запитання різного рівня складності, послідовний переказ інформації, опис подій, висловлення власної думки на тему «Моє літо».</p>
+
+    <h3>Очікувані результати</h3>
+    <ul>
+      <li>Учениця розуміє прочитаний текст і знаходить у ньому конкретну інформацію.</li>
+      <li>Відповідає на запитання коротким і повним реченням.</li>
+      <li>Відновлює послідовність подій за допомогою слів-підказок.</li>
+      <li>Будує 5–10 самостійних речень на тему власного літа.</li>
+    </ul>
+
+    <h3>Що перевірити під час уроку</h3>
+    <ul>
+      <li>Чи розуміє учениця текст без додаткових пояснень.</li>
+      <li>Чи знаходить відповідь у тексті самостійно (блок А).</li>
+      <li>Чи пояснює причинно-наслідкові зв'язки (блок Б).</li>
+      <li>Чи використовує мовленнєві опори у власних висловлюваннях.</li>
+      <li>Наскільки вільно (без страху помилки) вона говорить усно.</li>
+    </ul>
+
+    <h3>Помилки, які варто занотувати для подальшої роботи</h3>
+    <ul>
+      <li>Труднощі з побудовою складних речень («тому що», «коли», «хоча»).</li>
+      <li>Пропуск логічних зв'язків між подіями під час переказу.</li>
+      <li>Уникнення розгорнутих відповідей (перехід на «так/ні»).</li>
+      <li>Складнощі з добором слів із лексичного блоку у власному мовленні.</li>
+    </ul>
+
+    <h3>Ключі до закритих вправ</h3>
+    <ul>
+      <li><b>Знайди зайве слово:</b> 1 — лижі; 2 — сніг; 3 — мороз.</li>
+      <li><b>Встав слово:</b> 1 — подорож; 2 — запам'яталася; 3 — проводити.</li>
+      <li><b>Правильний порядок подій:</b> 1) Оксана відпочивала вдома. 2) Родина поїхала до бабусі в село. 3) Родина відвідала морське узбережжя. 4) Оксана каталася на водних лижах. 5) Дівчина побувала в таборі відпочинку. 6) Оксана виступила на концерті.</li>
+    </ul>
+
+    <h3>Орієнтовні відповіді до запитань за текстом</h3>
+    <ul>
+      <li>Коли почалися канікули? — Наприкінці травня.</li>
+      <li>Куди родина поїхала спочатку? — До бабусі в село.</li>
+      <li>На чому вперше каталася Оксана на морі? — На водних лижах.</li>
+      <li>Що робила в таборі? — Брала участь у змаганнях, майстер-класах, вечірніх іграх.</li>
+      <li>Чому спочатку було страшно кататися на лижах? — Тому що це було нове й незнайоме заняття.</li>
+      <li>Чому дівчина чекає наступного літа? — Тому що літо принесло багато приємних вражень.</li>
+      <li>Чому запам'ятався виступ на концерті? — Це був особливий момент з друзями на сцені.</li>
+      <li>Запитання В (власна думка) — відповіді індивідуальні, оцінюється зв'язність, а не точність.</li>
+    </ul>
+    <p class="muted">У блоках Б і В та у власних висловлюваннях учениці головне — логічність та зв'язність думки, а не граматична бездоганність. Помилки під час усного мовлення виправляти не потрібно.</p>
+  </div>
+</div>
+
+<script>
+const TOTAL_STEPS = 9;
+let current = 0;
+
+const supportPhrases = [
+  "Цього літа я…",
+  "Найбільше мені запам'яталося…",
+  "Мені сподобалося…, тому що…",
+  "Я хотіла б повторити…",
+  "Наступного літа я хотіла б…"
+];
+
+let orderItems = [
+  {id:1, text:"Родина відвідала морське узбережжя.", correct:3},
+  {id:2, text:"Оксана відпочивала вдома після школи.", correct:1},
+  {id:3, text:"Дівчина побувала в таборі відпочинку.", correct:5},
+  {id:4, text:"Оксана каталася на водних лижах.", correct:4},
+  {id:5, text:"Родина поїхала до бабусі в село.", correct:2},
+  {id:6, text:"Оксана виступила на таборовому концерті.", correct:6}
+];
+
+function stepContent(i){
+  const label = (n,t)=>`<div class="step-label">Крок ${n} з ${TOTAL_STEPS-1}</div><h1 class="step-title">${t}</h1>`;
+
+  if(i===0){
+    return `
+      <div class="step-label">Початок уроку</div>
+      <h1 class="step-title">Сьогодні говоримо про літо</h1>
+      <p>Урок складається з кількох частин. Ось що на нас чекає сьогодні:</p>
+      <ul class="agenda-list">
+        <li><span class="n">1</span> Розминка зі словами про літо</li>
+        <li><span class="n">2</span> Нові слова та словосполучення</li>
+        <li><span class="n">3</span> Текст «Літні канікули»</li>
+        <li><span class="n">4</span> Запитання до тексту</li>
+        <li><span class="n">5</span> Відновлюємо послідовність подій</li>
+        <li><span class="n">6</span> Розповідь про моє літо</li>
+        <li><span class="n">7</span> Підсумок</li>
+        <li><span class="n">8</span> Домашнє завдання</li>
+      </ul>
+      <p class="muted">Можна натискати «Далі», коли будеш готова. Повертатися назад теж можна.</p>
+    `;
+  }
+
+  if(i===1){
+    return label(1,"Розминка: слова літа") + `
+      <div class="task">
+        <p class="instr">Завдання 1. Запиши 5 слів, які асоціюються в тебе з літом.</p>
+        <textarea rows="2" placeholder="Наприклад: сонце, море, канікули…"></textarea>
+      </div>
+
+      <div class="task">
+        <p class="instr">Завдання 2. У кожному рядку одне слово не пов'язане з літом. Натисни на нього.</p>
+        <div class="chips" data-mc data-answer="лижі">
+          <button class="chip" type="button">пляж</button>
+          <button class="chip" type="button">море</button>
+          <button class="chip" type="button">лижі</button>
+          <button class="chip" type="button">засмага</button>
+        </div>
+        <div class="chips" data-mc data-answer="сніг">
+          <button class="chip" type="button">канікули</button>
+          <button class="chip" type="button">відпочинок</button>
+          <button class="chip" type="button">сніг</button>
+          <button class="chip" type="button">подорож</button>
+        </div>
+        <div class="chips" data-mc data-answer="мороз">
+          <button class="chip" type="button">кавун</button>
+          <button class="chip" type="button">мороз</button>
+          <button class="chip" type="button">суниці</button>
+          <button class="chip" type="button">спека</button>
+        </div>
+      </div>
+
+      <div class="task">
+        <p class="instr">Завдання 3. Склади одне речення зі словами: <i>літо, подорож, цікава</i>.</p>
+        <textarea rows="2" placeholder="Напиши своє речення тут…"></textarea>
+      </div>
+    `;
+  }
+
+  if(i===2){
+    return label(2,"Слова теми «Літо»") + `
+      <p class="muted">Прочитай слова та приклади речень.</p>
+      <table class="vocab">
+        <tr><th>Слово</th><th>Пояснення</th><th>Приклад речення</th></tr>
+        <tr><td>літні канікули</td><td>час відпочинку від навчання влітку</td><td>Літні канікули тривають три місяці.</td></tr>
+        <tr><td>відпочинок</td><td>час, коли не працюють і не вчаться</td><td>Мені потрібен був відпочинок.</td></tr>
+        <tr><td>подорож</td><td>поїздка кудись</td><td>Наша подорож почалася зранку.</td></tr>
+        <tr><td>враження</td><td>почуття й думки після події</td><td>У мене гарні враження від табору.</td></tr>
+        <tr><td>проводити час</td><td>займатися чимось певний період</td><td>Я люблю проводити час на природі.</td></tr>
+        <tr><td>відвідати</td><td>побувати десь, прийти кудись</td><td>Ми відвідали бабусю в селі.</td></tr>
+        <tr><td>побувати</td><td>опинитися десь хоча б раз</td><td>Я вперше побувала на морі.</td></tr>
+        <tr><td>насолоджуватися</td><td>отримувати задоволення</td><td>Ми насолоджувалися теплою погодою.</td></tr>
+        <tr><td>узбережжя</td><td>місце біля моря</td><td>Ми жили недалеко від узбережжя.</td></tr>
+        <tr><td>табір відпочинку</td><td>місце, де діти відпочивають разом</td><td>Я їздила в табір відпочинку.</td></tr>
+        <tr><td>запам'яталося</td><td>те, що особливо запам'ятали</td><td>Найбільше запам'яталося купання в морі.</td></tr>
+        <tr><td>з нетерпінням чекати</td><td>дуже хотіти, щоб щось настало</td><td>Я з нетерпінням чекаю літа.</td></tr>
+      </table>
+
+      <div class="task">
+        <p class="instr">Встав підходяще слово в кожне речення.</p>
+        <p>1. Цього літа я їздила в
+          <select data-blank data-answer="подорож">
+            <option value="">оберіть слово</option>
+            <option>подорож</option><option>канікули</option><option>узбережжя</option>
+          </select> до моря.</p>
+        <p>2. Найбільше мені
+          <select data-blank data-answer="запам'яталася">
+            <option value="">оберіть слово</option>
+            <option>запам'яталася</option><option>відвідала</option><option>насолоджувалася</option>
+          </select> поїздка в гори.</p>
+        <p>3. Ми любили
+          <select data-blank data-answer="проводити">
+            <option value="">оберіть слово</option>
+            <option>проводити</option><option>побувати</option><option>чекати</option>
+          </select> час на річці.</p>
+        <button class="check-btn" id="checkBlanks" type="button">Перевірити</button>
+        <div class="answer-box" id="blanksResult"></div>
+      </div>
+    `;
+  }
+
+  if(i===3){
+    return label(3,"Текст «Літні канікули»") + `
+      <div class="reading-text">
+        <p>Літні канікули почалися наприкінці травня, одразу після завершення навчального року. Спочатку Оксана просто відпочивала вдома і висипалася після довгого навчального року. Через кілька днів родина вирішила поїхати на відпочинок до бабусі в село.</p>
+        <p>У селі дівчина проводила час на свіжому повітрі. Вранці вона допомагала бабусі в городі, а вдень ходила купатися на річку з друзями. Їй дуже сподобалося ловити рибу разом з дідусем, хоча спіймати вдалося лише кілька маленьких рибок.</p>
+        <p>У липні родина відвідала морське узбережжя. Вони орендували квартиру недалеко від пляжу і провели там десять днів. Оксана вперше каталася на водних лижах, і хоча спочатку було страшно, згодом їй дуже сподобалося. Ввечері родина гуляла набережною і куштувала морозиво.</p>
+        <p>Наприкінці літа дівчина побувала в таборі відпочинку разом з однокласниками. Там вона брала участь у спортивних змаганнях, майстер-класах з малювання та вечірніх іграх. Найбільше їй запам'яталося виступ на таборовому концерті, де вона разом з друзями співала пісню.</p>
+        <p>Літо закінчилося швидко, але залишило багато приємних вражень. Дівчина зрозуміла, що найбільше цінує час, проведений з родиною та друзями на природі. Вона з нетерпінням чекає наступного літа, щоб знову поїхати в табір і побачити море.</p>
+      </div>
+    `;
+  }
+
+  if(i===4){
+    const qa = (q,type)=>`
+      <div class="task">
+        <p class="instr">${type}</p>
+        <p>${q.q}</p>
+        <textarea rows="2" placeholder="Твоя відповідь…"></textarea>
+        <div><button class="reveal-btn" data-reveal type="button">Показати відповідь</button></div>
+        <div class="answer-box">${q.a}</div>
+      </div>`;
+
+    const A = [
+      {q:"1. Коли почалися літні канікули Оксани?", a:"Наприкінці травня."},
+      {q:"2. Куди родина поїхала спочатку?", a:"До бабусі в село."},
+      {q:"3. На чому вперше каталася Оксана на морі?", a:"Оксана вперше каталася на водних лижах."},
+      {q:"4. Що робила Оксана в таборі відпочинку?", a:"Вона брала участь у спортивних змаганнях, майстер-класах з малювання та вечірніх іграх."}
+    ];
+    const B = [
+      {q:"1. Чому Оксані спочатку було страшно кататися на водних лижах?", a:"Тому що це було для неї нове й незнайоме заняття."},
+      {q:"2. Чому дівчина з нетерпінням чекає наступного літа?", a:"Тому що літо принесло їй багато приємних вражень."},
+      {q:"3. Як ти думаєш, чому Оксані найбільше запам'ятався виступ на концерті?", a:"Тому що це був особливий момент, де вона разом з друзями виступала перед іншими."}
+    ];
+    const V = [
+      {q:"1. Яка частина літа Оксани сподобалася б тобі найбільше і чому?"},
+      {q:"2. Чи є в тебе схожі літні враження? Розкажи коротко."}
+    ];
+
+    return label(4,"Запитання до тексту") + `
+      <h2 class="block-title">А. Знайди відповідь у тексті</h2>
+      ${A.map(x=>qa(x,"Коротка або повна відповідь")).join("")}
+
+      <h2 class="block-title">Б. Подумай і поясни</h2>
+      ${B.map(x=>qa(x,"Повна відповідь")).join("")}
+
+      <h2 class="block-title">В. Вислови власну думку</h2>
+      ${V.map(x=>`
+        <div class="task">
+          <p class="instr">Розгорнута відповідь — тут немає єдиної правильної відповіді.</p>
+          <p>${x.q}</p>
+          <textarea rows="3" placeholder="Твоя думка…"></textarea>
+        </div>`).join("")}
+    `;
+  }
+
+  if(i===5){
+    return label(5,"Розкажи послідовно") + `
+      <p>Події з тексту переплутані. Постав їх у правильному порядку за допомогою стрілок. Підказка: <b>спочатку → потім → після цього → згодом → наприкінці</b>.</p>
+      <ul class="order-list" id="orderList"></ul>
+      <button class="check-btn" id="checkOrder" type="button">Перевірити порядок</button>
+      <button class="ghost-btn" id="showOrder" type="button">Показати правильний порядок</button>
+      <p class="feedback-note" id="orderFeedback"></p>
+
+      <div class="task" style="margin-top:22px">
+        <p class="instr">Коли порядок готовий — розкажи текст усно за цим планом, використовуючи слова спочатку, потім, після цього, згодом, наприкінці.</p>
+      </div>
+    `;
+  }
+
+  if(i===6){
+    return label(6,"Розповідь про моє літо") + `
+      <p>Обери рівень складності та розкажи про своє літо. Можна натискати на фрази-опори — вони додадуться в текст.</p>
+      <div class="chips">
+        ${supportPhrases.map(p=>`<button class="chip" data-insert="${p}" type="button">${p}</button>`).join("")}
+      </div>
+      <div class="level-tabs">
+        <button class="level-tab active" data-level="1" type="button">Базовий рівень</button>
+        <button class="level-tab" data-level="2" type="button">Складніший рівень</button>
+      </div>
+      <div class="level-pane active" data-pane="1">
+        <p class="muted">Склади 5–6 речень про своє літо, використовуючи опори.</p>
+        <textarea rows="6" id="level1" placeholder="Цього літа я…"></textarea>
+      </div>
+      <div class="level-pane" data-pane="2">
+        <p class="muted">Склади зв'язну розповідь із 8–10 речень. Спробуй використати слова з лексичного блоку.</p>
+        <textarea rows="9" id="level2" placeholder="Цього літа я…"></textarea>
+      </div>
+    `;
+  }
+
+  if(i===7){
+    return label(7,"Підсумок уроку") + `
+      <div class="task"><p class="instr">Що сьогодні було найцікавішим?</p><textarea rows="2"></textarea></div>
+      <div class="task"><p class="instr">Яке нове слово запам'яталося?</p><textarea rows="2"></textarea></div>
+      <div class="task"><p class="instr">Що було легким?</p><textarea rows="2"></textarea></div>
+      <div class="task"><p class="instr">Що було складним?</p><textarea rows="2"></textarea></div>
+    `;
+  }
+
+  if(i===8){
+    return label(8,"Домашнє завдання") + `
+      <p>Обери один варіант.</p>
+      <div class="radio-row" id="homeChoice">
+        <label><input type="radio" name="home"><span>Напиши 6–8 речень про один літній день, який тобі запам'ятався.</span></label>
+        <label><input type="radio" name="home"><span>Запиши короткий усний переказ тексту «Літні канікули» (аудіо або відео, 1–2 хвилини).</span></label>
+      </div>
+      <p class="muted">На виконання знадобиться приблизно 10–15 хвилин. Дякую за урок! 🌞</p>
+    `;
+  }
+
+  return "";
+}
+
+function renderProgress(){
+  const wrap = document.getElementById('progress');
+  wrap.innerHTML = "";
+  for(let i=0;i<TOTAL_STEPS;i++){
+    const d = document.createElement('div');
+    d.className = 'dot' + (i===current?' active':(i<current?' done':''));
+    wrap.appendChild(d);
+  }
+}
+
+function wireStep(i){
+  // multiple-choice "find the odd word"
+  document.querySelectorAll('[data-mc]').forEach(group=>{
+    group.querySelectorAll('.chip').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        group.querySelectorAll('.chip').forEach(b=>b.style.background='');
+        const correct = btn.textContent.trim() === group.dataset.answer;
+        btn.style.background = correct ? '#DDEFE6' : '#F6E3C4';
+      });
+    });
+  });
+
+  // fill-in blanks check
+  const checkBlanks = document.getElementById('checkBlanks');
+  if(checkBlanks){
+    checkBlanks.addEventListener('click', ()=>{
+      const selects = document.querySelectorAll('[data-blank]');
+      let allCorrect = true;
+      selects.forEach(s=>{ if(s.value !== s.dataset.answer) allCorrect = false; });
+      const box = document.getElementById('blanksResult');
+      box.classList.add('show');
+      box.textContent = allCorrect
+        ? "Чудово! Усі слова підібрано правильно."
+        : "Перевір ще раз: подорож · запам'яталася · проводити.";
+    });
+  }
+
+  // reveal answers
+  document.querySelectorAll('[data-reveal]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const box = btn.parentElement.nextElementSibling;
+      const isShown = box.classList.toggle('show');
+      btn.textContent = isShown ? "Сховати відповідь" : "Показати відповідь";
+    });
+  });
+
+  // order exercise
+  if(i===5){
+    renderOrderList();
+    document.getElementById('checkOrder').addEventListener('click', checkOrderList);
+    document.getElementById('showOrder').addEventListener('click', showCorrectOrder);
+  }
+
+  // insert chips into textarea (level pane)
+  if(i===6){
+    document.querySelectorAll('[data-insert]').forEach(chip=>{
+      chip.addEventListener('click', ()=>{
+        const activePane = document.querySelector('.level-pane.active textarea');
+        if(!activePane) return;
+        const sep = activePane.value && !activePane.value.endsWith(' ') && !activePane.value.endsWith('\n') ? ' ' : '';
+        activePane.value += sep + chip.dataset.insert + ' ';
+        activePane.focus();
+      });
+    });
+    document.querySelectorAll('.level-tab').forEach(tab=>{
+      tab.addEventListener('click', ()=>{
+        document.querySelectorAll('.level-tab').forEach(t=>t.classList.remove('active'));
+        document.querySelectorAll('.level-pane').forEach(p=>p.classList.remove('active'));
+        tab.classList.add('active');
+        document.querySelector(`.level-pane[data-pane="${tab.dataset.level}"]`).classList.add('active');
+      });
+    });
+  }
+
+  // homework radio highlight
+  if(i===8){
+    document.querySelectorAll('#homeChoice label').forEach(l=>{
+      l.addEventListener('click', ()=>{
+        document.querySelectorAll('#homeChoice label').forEach(x=>x.classList.remove('picked'));
+        l.classList.add('picked');
+      });
+    });
+  }
+}
+
+function renderOrderList(){
+  const ul = document.getElementById('orderList');
+  ul.innerHTML = "";
+  orderItems.forEach((item, idx)=>{
+    const li = document.createElement('li');
+    li.className = 'order-item';
+    li.dataset.id = item.id;
+    li.innerHTML = `
+      <span class="num">${idx+1}</span>
+      <span class="txt">${item.text}</span>
+      <span class="order-controls">
+        <button type="button" data-dir="up" aria-label="Вгору">↑</button>
+        <button type="button" data-dir="down" aria-label="Вниз">↓</button>
+      </span>`;
+    ul.appendChild(li);
+  });
+  ul.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const li = btn.closest('.order-item');
+      const id = parseInt(li.dataset.id);
+      const idx = orderItems.findIndex(o=>o.id===id);
+      const dir = btn.dataset.dir;
+      if(dir==='up' && idx>0){
+        [orderItems[idx-1], orderItems[idx]] = [orderItems[idx], orderItems[idx-1]];
+      }
+      if(dir==='down' && idx<orderItems.length-1){
+        [orderItems[idx+1], orderItems[idx]] = [orderItems[idx], orderItems[idx+1]];
+      }
+      renderOrderList();
+    });
+  });
+}
+
+function checkOrderList(){
+  let correctCount = 0;
+  document.querySelectorAll('.order-item').forEach((li, idx)=>{
+    const id = parseInt(li.dataset.id);
+    const item = orderItems.find(o=>o.id===id);
+    const isRight = item.correct === idx+1;
+    li.classList.toggle('correct', isRight);
+    if(isRight) correctCount++;
+  });
+  const fb = document.getElementById('orderFeedback');
+  fb.textContent = correctCount === orderItems.length
+    ? "Чудово, увесь порядок правильний!"
+    : `Правильно розташовано подій: ${correctCount} з ${orderItems.length}. Спробуй ще раз або подивись підказку.`;
+}
+
+function showCorrectOrder(){
+  orderItems.sort((a,b)=>a.correct-b.correct);
+  renderOrderList();
+  document.querySelectorAll('.order-item').forEach(li=>li.classList.add('correct'));
+  document.getElementById('orderFeedback').textContent = "Ось правильний порядок подій.";
+}
+
+function renderStep(){
+  const card = document.getElementById('stepCard');
+  card.innerHTML = stepContent(current) + `
+    <div class="nav">
+      <button class="prev" id="prevBtn" type="button" ${current===0?'disabled':''}>← Назад</button>
+      <button class="next" id="nextBtn" type="button" ${current===TOTAL_STEPS-1?'disabled':''}>${current===TOTAL_STEPS-1?'':'Далі →'}</button>
+    </div>
+  `;
+  renderProgress();
+  wireStep(current);
+  document.getElementById('prevBtn').addEventListener('click', ()=>{ if(current>0){current--; renderStep(); window.scrollTo({top:0,behavior:'smooth'});}});
+  document.getElementById('nextBtn').addEventListener('click', ()=>{ if(current<TOTAL_STEPS-1){current++; renderStep(); window.scrollTo({top:0,behavior:'smooth'});}});
+}
+
+document.getElementById('openTeacher').addEventListener('click', ()=>{
+  document.getElementById('overlay').classList.add('show');
+});
+document.getElementById('closeTeacher').addEventListener('click', ()=>{
+  document.getElementById('overlay').classList.remove('show');
+});
+document.getElementById('overlay').addEventListener('click', (e)=>{
+  if(e.target.id === 'overlay') document.getElementById('overlay').classList.remove('show');
+});
+
+renderStep();
+</script>
+</body>
+</html>
