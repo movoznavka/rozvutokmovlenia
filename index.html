@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Урок: Моє літо</title>
+<title>Урок 2: Подія та мої враження</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -19,7 +20,41 @@
     --line:#E3DDD2;
     --reveal-bg:#EAF3EF;
     --reveal-border:#BFD9CD;
+    --wrong-bg:#FBEDEB;
+    --wrong-border:#E3A8A0;
     --radius:14px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#1B211F;
+      --surface:#232B28;
+      --ink:#E7EDE9;
+      --ink-muted:#9FB0AA;
+      --primary:#5FA294;
+      --primary-dark:#8FC7BA;
+      --accent:#E8A758;
+      --accent-soft:#3A3325;
+      --line:#38423E;
+      --reveal-bg:#20302B;
+      --reveal-border:#3E6459;
+      --wrong-bg:#3A2523;
+      --wrong-border:#7A4842;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#1B211F;
+    --surface:#232B28;
+    --ink:#E7EDE9;
+    --ink-muted:#9FB0AA;
+    --primary:#5FA294;
+    --primary-dark:#8FC7BA;
+    --accent:#E8A758;
+    --accent-soft:#3A3325;
+    --line:#38423E;
+    --reveal-bg:#20302B;
+    --reveal-border:#3E6459;
+    --wrong-bg:#3A2523;
+    --wrong-border:#7A4842;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -30,308 +65,129 @@
     line-height:1.55;
     -webkit-font-smoothing:antialiased;
   }
-  .app{
-    max-width:760px;
-    margin:0 auto;
-    padding:24px 20px 80px;
-  }
-  header.top{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-    margin-bottom:20px;
-    flex-wrap:wrap;
-  }
-  .lesson-title{
-    font-size:1.05rem;
-    font-weight:700;
-    color:var(--primary-dark);
-  }
-  .lesson-title span{
-    display:block;
-    font-weight:400;
-    font-size:0.85rem;
-    color:var(--ink-muted);
-    margin-top:2px;
-  }
-  button.teacher-btn{
-    background:var(--surface);
-    border:1.5px solid var(--line);
-    color:var(--ink-muted);
-    font-family:inherit;
-    font-size:0.85rem;
-    padding:9px 14px;
-    border-radius:999px;
-    cursor:pointer;
-  }
+  .app{max-width:760px;margin:0 auto;padding:24px 20px 80px;}
+  header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
+  .lesson-title{font-size:1.05rem;font-weight:700;color:var(--primary-dark);}
+  .lesson-title span{display:block;font-weight:400;font-size:0.85rem;color:var(--ink-muted);margin-top:2px;}
+  button.teacher-btn{background:var(--surface);border:1.5px solid var(--line);color:var(--ink-muted);font-family:inherit;font-size:0.85rem;padding:9px 14px;border-radius:999px;cursor:pointer;}
   button.teacher-btn:hover{border-color:var(--primary);color:var(--primary-dark);}
 
-  .progress{
-    display:flex;
-    gap:6px;
-    margin-bottom:28px;
-    flex-wrap:wrap;
-  }
-  .dot{
-    flex:1;
-    min-width:18px;
-    height:6px;
-    border-radius:4px;
-    background:var(--line);
-    transition:background .25s ease;
-  }
+  .progress{display:flex;gap:6px;margin-bottom:28px;flex-wrap:wrap;}
+  .dot{flex:1;min-width:14px;height:6px;border-radius:4px;background:var(--line);transition:background .25s ease;}
   .dot.done{background:var(--primary);opacity:.55;}
   .dot.active{background:var(--primary);}
 
-  .card{
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:28px 26px;
-    animation:fadeIn .3s ease;
-  }
-  @keyframes fadeIn{
-    from{opacity:0; transform:translateY(6px);}
-    to{opacity:1; transform:translateY(0);}
-  }
-  @media (prefers-reduced-motion: reduce){
-    .card{animation:none;}
-  }
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:28px 26px;animation:fadeIn .3s ease;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+  @media (prefers-reduced-motion: reduce){.card{animation:none;}}
 
-  .step-label{
-    font-size:0.78rem;
-    color:var(--primary);
-    font-weight:700;
-    margin-bottom:6px;
-  }
-  h1.step-title{
-    font-size:1.5rem;
-    margin:0 0 14px;
-    color:var(--primary-dark);
-    max-width:32ch;
-  }
-  h2.block-title{
-    font-size:1.05rem;
-    color:var(--primary-dark);
-    margin:26px 0 10px;
-  }
+  .step-label{font-size:0.78rem;color:var(--primary);font-weight:700;margin-bottom:6px;}
+  h1.step-title{font-size:1.5rem;margin:0 0 14px;color:var(--primary-dark);max-width:32ch;}
+  h2.block-title{font-size:1.05rem;color:var(--primary-dark);margin:26px 0 10px;}
   h2.block-title:first-of-type{margin-top:4px;}
+  h3.sub-title{font-size:0.92rem;color:var(--primary-dark);margin:20px 0 8px;}
   p{max-width:68ch;}
   .muted{color:var(--ink-muted); font-size:0.92rem;}
 
-  .task{
-    border:1px solid var(--line);
-    border-radius:10px;
-    padding:16px 18px;
-    margin:14px 0;
-    background:#FCFBF8;
-  }
-  .task .instr{
-    font-size:0.88rem;
-    color:var(--ink-muted);
-    margin:0 0 10px;
-  }
+  .task{border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:14px 0;background:var(--bg);}
+  .task .instr{font-size:0.88rem;color:var(--ink-muted);margin:0 0 10px;}
+  .task .num-label{font-weight:700;color:var(--primary-dark);}
 
-  textarea, input[type=text]{
-    width:100%;
-    font-family:inherit;
-    font-size:0.95rem;
-    color:var(--ink);
-    border:1.5px solid var(--line);
-    border-radius:8px;
-    padding:10px 12px;
-    background:#fff;
-    resize:vertical;
+  textarea, input[type=text], select{
+    width:100%;font-family:inherit;font-size:0.95rem;color:var(--ink);
+    border:1.5px solid var(--line);border-radius:8px;padding:10px 12px;
+    background:var(--surface);resize:vertical;
   }
+  select{width:auto;max-width:100%;}
   textarea:focus, input[type=text]:focus, select:focus, button:focus{
-    outline:3px solid var(--accent-soft);
-    outline-offset:1px;
-    border-color:var(--accent);
+    outline:3px solid var(--accent-soft);outline-offset:1px;border-color:var(--accent);
   }
 
   .chips{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0;}
-  .chip{
-    background:var(--accent-soft);
-    border:1px solid var(--accent);
-    color:var(--primary-dark);
-    font-family:inherit;
-    font-size:0.85rem;
-    padding:7px 12px;
-    border-radius:999px;
-    cursor:pointer;
-  }
+  .chip{background:var(--accent-soft);border:1px solid var(--accent);color:var(--primary-dark);font-family:inherit;font-size:0.85rem;padding:7px 12px;border-radius:999px;cursor:pointer;}
   .chip:hover{background:var(--accent);}
 
   .reveal-btn, .check-btn, .ghost-btn{
-    font-family:inherit;
-    font-size:0.88rem;
-    border-radius:8px;
-    padding:9px 14px;
-    cursor:pointer;
-    border:1.5px solid var(--primary);
-    background:var(--primary);
-    color:#fff;
-    margin-top:6px;
+    font-family:inherit;font-size:0.88rem;border-radius:8px;padding:9px 14px;cursor:pointer;
+    border:1.5px solid var(--primary);background:var(--primary);color:#fff;margin-top:6px;
   }
   .reveal-btn:hover, .check-btn:hover{background:var(--primary-dark); border-color:var(--primary-dark);}
   .ghost-btn{background:transparent; color:var(--primary); border:1.5px solid var(--line);}
   .ghost-btn:hover{border-color:var(--primary);}
 
-  .answer-box{
-    display:none;
-    margin-top:10px;
-    background:var(--reveal-bg);
-    border:1px solid var(--reveal-border);
-    border-radius:8px;
-    padding:10px 14px;
-    font-size:0.92rem;
-  }
+  .answer-box{display:none;margin-top:10px;background:var(--reveal-bg);border:1px solid var(--reveal-border);border-radius:8px;padding:10px 14px;font-size:0.92rem;}
   .answer-box.show{display:block;}
 
-  table.vocab{
-    width:100%;
-    border-collapse:collapse;
-    font-size:0.9rem;
-    margin:10px 0 4px;
-  }
-  table.vocab th, table.vocab td{
-    text-align:left;
-    padding:9px 8px;
-    border-bottom:1px solid var(--line);
-    vertical-align:top;
-  }
+  .table-wrap{overflow-x:auto;}
+  table.vocab{width:100%;min-width:520px;border-collapse:collapse;font-size:0.9rem;margin:10px 0 4px;}
+  table.vocab th, table.vocab td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top;}
   table.vocab th{color:var(--ink-muted); font-weight:700; font-size:0.8rem;}
 
-  .reading-text{
-    background:#FCFBF8;
-    border:1px solid var(--line);
-    border-radius:10px;
-    padding:20px 22px;
-    max-width:68ch;
-  }
+  .reading-text{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:20px 22px;max-width:68ch;}
   .reading-text p{margin:0 0 14px;}
   .reading-text p:last-child{margin-bottom:0;}
 
   .order-list{list-style:none; margin:10px 0; padding:0;}
-  .order-item{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    background:#fff;
-    border:1.5px solid var(--line);
-    border-radius:8px;
-    padding:10px 12px;
-    margin-bottom:8px;
-    font-size:0.92rem;
-  }
+  .order-item{display:flex;align-items:center;gap:10px;background:var(--surface);border:1.5px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:0.92rem;}
   .order-item.correct{border-color:var(--reveal-border); background:var(--reveal-bg);}
-  .order-item .num{
-    font-weight:700;
-    color:var(--primary);
-    min-width:20px;
-  }
+  .order-item .num{font-weight:700;color:var(--primary);min-width:20px;}
   .order-item .txt{flex:1;}
   .order-controls{display:flex; gap:4px;}
-  .order-controls button{
-    width:28px; height:28px;
-    border-radius:6px;
-    border:1.5px solid var(--line);
-    background:#fff;
-    cursor:pointer;
-    font-size:0.85rem;
-    line-height:1;
-  }
+  .order-controls button{width:28px; height:28px;border-radius:6px;border:1.5px solid var(--line);background:var(--surface);cursor:pointer;font-size:0.85rem;line-height:1;}
   .order-controls button:hover{border-color:var(--primary); color:var(--primary);}
   .feedback-note{font-size:0.85rem; color:var(--ink-muted); margin-top:8px;}
 
-  .level-tabs{display:flex; gap:8px; margin-bottom:12px;}
-  .level-tab{
-    font-family:inherit;
-    font-size:0.88rem;
-    padding:8px 14px;
-    border-radius:999px;
-    border:1.5px solid var(--line);
-    background:#fff;
-    cursor:pointer;
-    color:var(--ink-muted);
-  }
+  .sb-bank{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
+  .sb-word{background:var(--accent-soft);border:1px solid var(--accent);color:var(--primary-dark);font-family:inherit;font-size:0.9rem;padding:7px 12px;border-radius:8px;cursor:pointer;}
+  .sb-word:hover{background:var(--accent);}
+  .sb-answer{min-height:44px;border:1.5px dashed var(--line);border-radius:8px;padding:8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px;background:var(--surface);}
+  .sb-chip{background:var(--reveal-bg);border:1px solid var(--reveal-border);color:var(--primary-dark);font-family:inherit;font-size:0.9rem;padding:7px 12px;border-radius:8px;cursor:pointer;}
+  .sb-controls{display:flex;gap:8px;flex-wrap:wrap;}
+  .sb-feedback{font-size:0.88rem;margin-top:6px;min-height:1.2em;color:var(--ink-muted);}
+
+  .mc-options{display:flex;flex-direction:column;gap:8px;margin:10px 0;}
+  .mc-opt{text-align:left;font-family:inherit;font-size:0.92rem;padding:10px 14px;border:1.5px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);cursor:pointer;}
+  .mc-opt:hover{border-color:var(--primary);}
+  .mc-opt.correct{border-color:var(--reveal-border);background:var(--reveal-bg);}
+  .mc-opt.wrong{border-color:var(--wrong-border);background:var(--wrong-bg);}
+  .mc-opt:disabled{cursor:default;}
+  .mc-feedback{font-size:0.85rem;color:var(--ink-muted);margin-top:6px;min-height:1.2em;}
+
+  .match-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
+  .match-left{flex:1 1 45%;font-size:0.92rem;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 12px;}
+  .match-select{flex:1 1 45%;}
+  .match-feedback{font-size:0.85rem;color:var(--ink-muted);margin-top:6px;min-height:1.2em;}
+
+  .level-tabs{display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;}
+  .level-tab{font-family:inherit;font-size:0.88rem;padding:8px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);cursor:pointer;color:var(--ink-muted);}
   .level-tab.active{background:var(--primary); border-color:var(--primary); color:#fff;}
   .level-pane{display:none;}
   .level-pane.active{display:block;}
 
-  .nav{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-top:22px;
-  }
-  .nav button{
-    font-family:inherit;
-    font-size:0.95rem;
-    padding:11px 20px;
-    border-radius:999px;
-    cursor:pointer;
-    border:1.5px solid var(--primary);
-  }
+  .nav{display:flex;justify-content:space-between;align-items:center;margin-top:22px;}
+  .nav button{font-family:inherit;font-size:0.95rem;padding:11px 20px;border-radius:999px;cursor:pointer;border:1.5px solid var(--primary);}
   .nav .next{background:var(--primary); color:#fff;}
   .nav .next:hover{background:var(--primary-dark);}
-  .nav .prev{background:#fff; color:var(--primary);}
+  .nav .prev{background:var(--surface); color:var(--primary);}
   .nav .prev:hover{background:var(--accent-soft);}
   .nav button:disabled{opacity:0; pointer-events:none;}
 
   .agenda-list{list-style:none; padding:0; margin:18px 0;}
-  .agenda-list li{
-    display:flex;
-    gap:12px;
-    align-items:baseline;
-    padding:9px 0;
-    border-bottom:1px solid var(--line);
-    font-size:0.95rem;
-  }
+  .agenda-list li{display:flex;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line);font-size:0.95rem;}
   .agenda-list li:last-child{border-bottom:none;}
   .agenda-list .n{color:var(--primary); font-weight:700; min-width:22px;}
 
   .radio-row{display:flex; flex-direction:column; gap:10px; margin:12px 0;}
-  .radio-row label{
-    display:flex; gap:10px; align-items:flex-start;
-    border:1.5px solid var(--line);
-    border-radius:8px;
-    padding:12px 14px;
-    cursor:pointer;
-    font-size:0.92rem;
-  }
+  .radio-row label{display:flex; gap:10px; align-items:flex-start;border:1.5px solid var(--line);border-radius:8px;padding:12px 14px;cursor:pointer;font-size:0.92rem;}
   .radio-row input{margin-top:3px;}
   .radio-row label.picked{border-color:var(--primary); background:var(--reveal-bg);}
 
-  /* teacher modal */
-  .overlay{
-    display:none;
-    position:fixed; inset:0;
-    background:rgba(43,58,58,0.45);
-    z-index:50;
-    padding:24px;
-    overflow-y:auto;
-  }
+  .overlay{display:none;position:fixed; inset:0;background:rgba(20,26,26,0.5);z-index:50;padding:24px;overflow-y:auto;}
   .overlay.show{display:block;}
-  .modal{
-    max-width:760px;
-    margin:0 auto;
-    background:var(--surface);
-    border-radius:var(--radius);
-    padding:30px 28px 34px;
-  }
+  .modal{max-width:760px;margin:0 auto;background:var(--surface);border-radius:var(--radius);padding:30px 28px 34px;}
   .modal h2{color:var(--primary-dark); margin-top:0;}
   .modal h3{color:var(--primary-dark); font-size:1rem; margin:22px 0 8px;}
-  .modal-close{
-    float:right;
-    background:transparent;
-    border:1.5px solid var(--line);
-    border-radius:999px;
-    padding:7px 14px;
-    cursor:pointer;
-    font-family:inherit;
-  }
+  .modal-close{float:right;background:transparent;border:1.5px solid var(--line);border-radius:999px;padding:7px 14px;cursor:pointer;font-family:inherit;color:var(--ink);}
   .modal ul{padding-left:20px;}
   .modal li{margin-bottom:6px; font-size:0.93rem;}
 </style>
@@ -340,7 +196,7 @@
 
 <div class="app">
   <header class="top">
-    <div class="lesson-title">Урок української мови: «Моє літо»<span>8–9 клас · 60 хвилин</span></div>
+    <div class="lesson-title">Урок української мови: «Подія та мої враження»<span>8–9 клас · 60 хвилин · урок 2</span></div>
     <button class="teacher-btn" id="openTeacher" type="button">Матеріали для вчителя</button>
   </header>
 
@@ -355,268 +211,853 @@
     <h2>Матеріали для вчителя</h2>
 
     <h3>Мета уроку</h3>
-    <p>Розвиток усного та писемного мовлення учениці: розуміння прочитаного тексту, побудова речень, відповіді на запитання різного рівня складності, послідовний переказ інформації, опис подій, висловлення власної думки на тему «Моє літо».</p>
+    <p>Розвиток усного та писемного мовлення учениці: розуміння прочитаного тексту, побудова речень із запропонованих елементів, використання лексики емоцій і вражень, встановлення послідовності подій, встановлення причинно-наслідкових зв'язків («подія → емоція → причина»), самостійне складання короткого зв'язного висловлювання на тему власного досвіду.</p>
 
-    <h3>Очікувані результати</h3>
+    <h3>Особливості для учениці з аутизмом</h3>
     <ul>
-      <li>Учениця розуміє прочитаний текст і знаходить у ньому конкретну інформацію.</li>
-      <li>Відповідає на запитання коротким і повним реченням.</li>
-      <li>Відновлює послідовність подій за допомогою слів-підказок.</li>
-      <li>Будує 5–10 самостійних речень на тему власного літа.</li>
+      <li>Кожне завдання невелике (1–4 хв), з чіткою інструкцією та передбачуваною структурою — однаковий формат повторюється в різних блоках.</li>
+      <li>Немає обмеження часу на екрані; можна повертатися назад і повторювати завдання.</li>
+      <li>Лексика уроку — конкретна й буквальна, без складних метафор.</li>
+      <li>У закритих завданнях відповідь завжди можна перевірити самостійно (кнопка «Перевірити»), це знижує тривожність.</li>
+      <li>Відкриті завдання (власна думка, розповідь) не мають «єдино правильної» відповіді — оцінюється зв'язність, а не граматична бездоганність.</li>
     </ul>
 
     <h3>Що перевірити під час уроку</h3>
     <ul>
       <li>Чи розуміє учениця текст без додаткових пояснень.</li>
-      <li>Чи знаходить відповідь у тексті самостійно (блок А).</li>
-      <li>Чи пояснює причинно-наслідкові зв'язки (блок Б).</li>
-      <li>Чи використовує мовленнєві опори у власних висловлюваннях.</li>
-      <li>Наскільки вільно (без страху помилки) вона говорить усно.</li>
+      <li>Чи вміє знаходити конкретну інформацію в тексті (хто, де, коли, що зробив).</li>
+      <li>Чи пояснює причину емоції героя (блок «подія → емоція → причина»).</li>
+      <li>Чи вміє самостійно скласти речення з елементів і додати 1–2 власні слова.</li>
+      <li>Наскільки вільно вона говорить усно під час переказу за опорами.</li>
     </ul>
 
     <h3>Помилки, які варто занотувати для подальшої роботи</h3>
     <ul>
-      <li>Труднощі з побудовою складних речень («тому що», «коли», «хоча»).</li>
-      <li>Пропуск логічних зв'язків між подіями під час переказу.</li>
-      <li>Уникнення розгорнутих відповідей (перехід на «так/ні»).</li>
-      <li>Складнощі з добором слів із лексичного блоку у власному мовленні.</li>
+      <li>Труднощі з порядком слів у реченні під час складання з елементів.</li>
+      <li>Плутанина між близькими за значенням словами емоцій (наприклад, «здивуватися» / «зрадіти»).</li>
+      <li>Пропуск причинно-наслідкового зв'язку («тому що», «коли», «після того як»).</li>
+      <li>Уникнення розгорнутих відповідей у відкритих завданнях.</li>
     </ul>
 
-    <h3>Ключі до закритих вправ</h3>
+    <h3>Ключі до закритих вправ (короткий довідник)</h3>
     <ul>
-      <li><b>Знайди зайве слово:</b> 1 — лижі; 2 — сніг; 3 — мороз.</li>
-      <li><b>Встав слово:</b> 1 — подорож; 2 — запам'яталася; 3 — проводити.</li>
-      <li><b>Правильний порядок подій:</b> 1) Оксана відпочивала вдома. 2) Родина поїхала до бабусі в село. 3) Родина відвідала морське узбережжя. 4) Оксана каталася на водних лижах. 5) Дівчина побувала в таборі відпочинку. 6) Оксана виступила на концерті.</li>
+      <li><b>Розминка, «Знайди зайве»:</b> 1 — олівець; 2 — зошит; 3 — малювати; 4 — стіл; 5 — готувати.</li>
+      <li><b>Текст, «Правда/неправда»:</b> 1 — правда; 2 — неправда (дев'ятий клас); 3 — правда; 4 — неправда (спецприз, не перше місце).</li>
+      <li><b>Текст, послідовність подій:</b> 1) повідомлення в чаті → 2) реєстрація → 3) робот зупинився → 4) учитель допоміг → 5) робот проїхав перешкоди → 6) приз «За найкращий дизайн».</li>
+      <li><b>Текст, зайве речення:</b> «Мама Дмитра любить готувати борщ» — не стосується подій тексту.</li>
+      <li><b>Текст, головна думка:</b> варіант «варто спробувати ще раз, навіть якщо щось не вдається одразу».</li>
+      <li><b>Відновлення тексту (7 речень):</b> реєстрація на конкурсі → натиснув кнопку → робот зупинився → засмутився → перевірив проводи → учитель допоміг → робот запрацював, глядачі заплескали.</li>
+      <li><b>Знайди помилку в реченні:</b> «Дмитро дуже зрадів своєму успіхом» — неправильна форма іменника.</li>
     </ul>
 
-    <h3>Орієнтовні відповіді до запитань за текстом</h3>
+    <h3>Орієнтовні відповіді до відкритих запитань</h3>
     <ul>
-      <li>Коли почалися канікули? — Наприкінці травня.</li>
-      <li>Куди родина поїхала спочатку? — До бабусі в село.</li>
-      <li>На чому вперше каталася Оксана на морі? — На водних лижах.</li>
-      <li>Що робила в таборі? — Брала участь у змаганнях, майстер-класах, вечірніх іграх.</li>
-      <li>Чому спочатку було страшно кататися на лижах? — Тому що це було нове й незнайоме заняття.</li>
-      <li>Чому дівчина чекає наступного літа? — Тому що літо принесло багато приємних вражень.</li>
-      <li>Чому запам'ятався виступ на концерті? — Це був особливий момент з друзями на сцені.</li>
-      <li>Запитання В (власна думка) — відповіді індивідуальні, оцінюється зв'язність, а не точність.</li>
+      <li>«Чому приз здивував Дмитра?» — Тому що він не зайняв перше місце, але все одно отримав визнання за свою роботу; це було неочікувано приємно.</li>
+      <li>Власна розповідь, продовження історії, усний переказ — відповіді індивідуальні; оцінюється логічність і зв'язність думки, а не граматична бездоганність. Помилки під час усного мовлення виправляти одразу не потрібно — краще занотувати їх і повернутися пізніше.</li>
     </ul>
-    <p class="muted">У блоках Б і В та у власних висловлюваннях учениці головне — логічність та зв'язність думки, а не граматична бездоганність. Помилки під час усного мовлення виправляти не потрібно.</p>
   </div>
 </div>
 
 <script>
-const TOTAL_STEPS = 9;
+const TOTAL_STEPS = 11;
 let current = 0;
 
+/* ---------- generic helpers used across steps ---------- */
+
+function initReveal(scope){
+  scope.querySelectorAll('[data-reveal]').forEach(btn=>{
+    if(btn.dataset.wired) return;
+    btn.dataset.wired = "1";
+    btn.addEventListener('click', ()=>{
+      const box = btn.parentElement.nextElementSibling;
+      const isShown = box.classList.toggle('show');
+      btn.textContent = isShown ? "Сховати відповідь" : "Показати відповідь";
+    });
+  });
+}
+
+function initBlankGroups(scope){
+  scope.querySelectorAll('.blank-check').forEach(btn=>{
+    if(btn.dataset.wired) return;
+    btn.dataset.wired = "1";
+    btn.addEventListener('click', ()=>{
+      const wrap = btn.closest('.blankgroup');
+      const selects = wrap.querySelectorAll('[data-blank]');
+      let correctCount = 0;
+      selects.forEach(s=>{ if(s.value === s.dataset.answer) correctCount++; });
+      const box = wrap.querySelector('.blank-result');
+      box.classList.add('show');
+      box.textContent = correctCount === selects.length
+        ? "Чудово! Усі слова вставлено правильно."
+        : `Правильно: ${correctCount} з ${selects.length}. Перевір ще раз і спробуй знову.`;
+    });
+  });
+}
+
+function initMC(scope){
+  scope.querySelectorAll('.mc').forEach(mc=>{
+    if(mc.dataset.wired) return;
+    mc.dataset.wired = "1";
+    const correctKey = mc.dataset.correct;
+    const fb = mc.querySelector('.mc-feedback');
+    mc.querySelectorAll('.mc-opt').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        if(mc.dataset.answered) return;
+        mc.dataset.answered = "1";
+        mc.querySelectorAll('.mc-opt').forEach(b=>{
+          b.disabled = true;
+          if(b.dataset.key === correctKey) b.classList.add('correct');
+        });
+        if(btn.dataset.key !== correctKey){
+          btn.classList.add('wrong');
+          if(fb) fb.textContent = "Не зовсім так. Правильний варіант позначено зеленим.";
+        } else if(fb){
+          fb.textContent = "Правильно!";
+        }
+      });
+    });
+  });
+}
+
+function initMatch(scope){
+  scope.querySelectorAll('.match').forEach(m=>{
+    const checkBtn = m.querySelector('.match-check');
+    if(!checkBtn || checkBtn.dataset.wired) return;
+    checkBtn.dataset.wired = "1";
+    checkBtn.addEventListener('click', ()=>{
+      let allCorrect = true;
+      m.querySelectorAll('.match-row').forEach(row=>{
+        const sel = row.querySelector('.match-select');
+        const correct = row.dataset.correct;
+        const isRight = sel.value === correct;
+        if(!isRight) allCorrect = false;
+        if(!sel.value){
+          sel.style.borderColor = 'var(--line)';
+          sel.style.background = 'var(--surface)';
+        } else {
+          sel.style.borderColor = isRight ? 'var(--reveal-border)' : 'var(--wrong-border)';
+          sel.style.background = isRight ? 'var(--reveal-bg)' : 'var(--wrong-bg)';
+        }
+      });
+      const fb = m.querySelector('.match-feedback');
+      if(fb) fb.textContent = allCorrect ? "Чудово, усе з'єднано правильно!" : "Щось з'єднано неправильно — подивись на кольори вище й виправ.";
+    });
+  });
+}
+
+function initSentenceBuilders(scope){
+  scope.querySelectorAll('.sb').forEach(sb=>{
+    if(sb.dataset.wired) return;
+    sb.dataset.wired = "1";
+    const bank = sb.querySelector('.sb-bank');
+    const answer = sb.querySelector('.sb-answer');
+    const fb = sb.querySelector('.sb-feedback');
+
+    function addWord(btn){
+      btn.style.display = 'none';
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'sb-chip';
+      chip.textContent = btn.dataset.word;
+      chip.addEventListener('click', ()=>{
+        chip.remove();
+        btn.style.display = '';
+        if(fb) fb.textContent = '';
+      });
+      answer.appendChild(chip);
+    }
+    bank.querySelectorAll('.sb-word').forEach(btn=>{
+      btn.addEventListener('click', ()=> addWord(btn));
+    });
+    const resetBtn = sb.querySelector('.sb-reset');
+    if(resetBtn){
+      resetBtn.addEventListener('click', ()=>{
+        answer.innerHTML = '';
+        bank.querySelectorAll('.sb-word').forEach(b=>b.style.display = '');
+        if(fb) fb.textContent = '';
+      });
+    }
+    const checkBtn = sb.querySelector('.sb-check');
+    if(checkBtn){
+      checkBtn.addEventListener('click', ()=>{
+        const built = Array.from(answer.children).map(c=>c.textContent).join(' ');
+        const norm = s => s.trim().toLowerCase().replace(/[.,!?«»]/g,'').replace(/\s+/g,' ');
+        if(norm(built) === norm(sb.dataset.correct)){
+          fb.textContent = '✅ Правильно!';
+        } else if(built.length === 0){
+          fb.textContent = 'Спочатку натисни на слова, щоб скласти речення.';
+        } else {
+          fb.textContent = '🔁 Ще не зовсім так. Спробуй ще раз, подивись на порядок слів.';
+        }
+      });
+    }
+  });
+}
+
+/* ---------- reorder-list widget (used more than once) ---------- */
+const orderState = {};
+function buildOrderList(containerId, items){
+  orderState[containerId] = items.map(x=>({...x}));
+  renderOrderList(containerId);
+}
+function renderOrderList(containerId){
+  const items = orderState[containerId];
+  const ul = document.getElementById(containerId);
+  if(!ul || !items) return;
+  ul.innerHTML = "";
+  items.forEach((item, idx)=>{
+    const li = document.createElement('li');
+    li.className = 'order-item';
+    li.dataset.id = item.id;
+    li.innerHTML = `
+      <span class="num">${idx+1}</span>
+      <span class="txt">${item.text}</span>
+      <span class="order-controls">
+        <button type="button" data-dir="up" aria-label="Вгору">↑</button>
+        <button type="button" data-dir="down" aria-label="Вниз">↓</button>
+      </span>`;
+    ul.appendChild(li);
+  });
+  ul.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const arr = orderState[containerId];
+      const li = btn.closest('.order-item');
+      const id = parseInt(li.dataset.id);
+      const idx = arr.findIndex(o=>o.id===id);
+      const dir = btn.dataset.dir;
+      if(dir==='up' && idx>0){ [arr[idx-1],arr[idx]]=[arr[idx],arr[idx-1]]; }
+      if(dir==='down' && idx<arr.length-1){ [arr[idx+1],arr[idx]]=[arr[idx],arr[idx+1]]; }
+      renderOrderList(containerId);
+    });
+  });
+}
+function checkOrderList(containerId, feedbackId){
+  const arr = orderState[containerId];
+  let correctCount = 0;
+  document.querySelectorAll(`#${containerId} .order-item`).forEach((li, idx)=>{
+    const id = parseInt(li.dataset.id);
+    const item = arr.find(o=>o.id===id);
+    const isRight = item.correct === idx+1;
+    li.classList.toggle('correct', isRight);
+    if(isRight) correctCount++;
+  });
+  const fb = document.getElementById(feedbackId);
+  fb.textContent = correctCount === arr.length
+    ? "Чудово, увесь порядок правильний!"
+    : `Правильно розташовано: ${correctCount} з ${arr.length}. Спробуй ще раз або подивись підказку.`;
+}
+function showCorrectOrder(containerId, feedbackId){
+  orderState[containerId].sort((a,b)=>a.correct-b.correct);
+  renderOrderList(containerId);
+  document.querySelectorAll(`#${containerId} .order-item`).forEach(li=>li.classList.add('correct'));
+  document.getElementById(feedbackId).textContent = "Ось правильний порядок.";
+}
+
+/* ---------- support phrases for oral retelling / own story ---------- */
 const supportPhrases = [
-  "Цього літа я…",
-  "Найбільше мені запам'яталося…",
-  "Мені сподобалося…, тому що…",
-  "Я хотіла б повторити…",
-  "Наступного літа я хотіла б…"
+  "Одного дня зі мною…",
+  "Спочатку я…",
+  "Потім…",
+  "Я дуже здивувалася, коли…",
+  "Найбільше мене вразило…",
+  "Ця подія запам'яталася мені, тому що…"
 ];
 
-let orderItems = [
-  {id:1, text:"Родина відвідала морське узбережжя.", correct:3},
-  {id:2, text:"Оксана відпочивала вдома після школи.", correct:1},
-  {id:3, text:"Дівчина побувала в таборі відпочинку.", correct:5},
-  {id:4, text:"Оксана каталася на водних лижах.", correct:4},
-  {id:5, text:"Родина поїхала до бабусі в село.", correct:2},
-  {id:6, text:"Оксана виступила на таборовому концерті.", correct:6}
-];
+/* ============================================================
+   STEP CONTENT
+   ============================================================ */
 
 function stepContent(i){
   const label = (n,t)=>`<div class="step-label">Крок ${n} з ${TOTAL_STEPS-1}</div><h1 class="step-title">${t}</h1>`;
 
+  /* ---------------- STEP 0 — INTRO ---------------- */
   if(i===0){
     return `
       <div class="step-label">Початок уроку</div>
-      <h1 class="step-title">Сьогодні говоримо про літо</h1>
-      <p>Урок складається з кількох частин. Ось що на нас чекає сьогодні:</p>
+      <h1 class="step-title">Сьогодні говоримо про подію, яка тебе вразила</h1>
+      <p>Тема уроку — «Подія та мої враження». Ось що на нас чекає сьогодні:</p>
       <ul class="agenda-list">
-        <li><span class="n">1</span> Розминка зі словами про літо</li>
-        <li><span class="n">2</span> Нові слова та словосполучення</li>
-        <li><span class="n">3</span> Текст «Літні канікули»</li>
-        <li><span class="n">4</span> Запитання до тексту</li>
-        <li><span class="n">5</span> Відновлюємо послідовність подій</li>
-        <li><span class="n">6</span> Розповідь про моє літо</li>
-        <li><span class="n">7</span> Підсумок</li>
-        <li><span class="n">8</span> Домашнє завдання</li>
+        <li><span class="n">1</span> Мовленнєва розминка</li>
+        <li><span class="n">2</span> Слова, які описують враження</li>
+        <li><span class="n">3</span> Складаємо речення з частин</li>
+        <li><span class="n">4</span> Текст «День, який запам'ятався»</li>
+        <li><span class="n">5</span> Працюємо з текстом — частина 1</li>
+        <li><span class="n">6</span> Працюємо з текстом — частина 2</li>
+        <li><span class="n">7</span> Відновлюємо текст</li>
+        <li><span class="n">8</span> Моя розповідь</li>
+        <li><span class="n">9</span> Підсумок уроку</li>
+        <li><span class="n">10</span> Домашнє завдання</li>
       </ul>
-      <p class="muted">Можна натискати «Далі», коли будеш готова. Повертатися назад теж можна.</p>
+      <p class="muted">Завдання невеликі — по 1–4 хвилини кожне. Можна натискати «Далі», коли будеш готова, і повертатися назад, коли захочеш.</p>
     `;
   }
 
+  /* ---------------- STEP 1 — WARM-UP ---------------- */
   if(i===1){
-    return label(1,"Розминка: слова літа") + `
+    const sbSet = [
+      {c:"Вчора я побачила цікаву подію.", w:["цікаву","я","вчора","подію","побачила"]},
+      {c:"Ця історія дуже мене здивувала.", w:["дуже","ця","мене","здивувала","історія"]},
+      {c:"Ми довго згадували цей день.", w:["довго","ми","цей","день","згадували"]},
+      {c:"Подія залишила приємні враження.", w:["приємні","подія","враження","залишила"]},
+      {c:"Я хочу розповісти про свій досвід.", w:["розповісти","я","про","свій","досвід","хочу"]}
+    ];
+    const sbHtml = sbSet.map((s,idx)=>`
       <div class="task">
-        <p class="instr">Завдання 1. Запиши 5 слів, які асоціюються в тебе з літом.</p>
-        <textarea rows="2" placeholder="Наприклад: сонце, море, канікули…"></textarea>
-      </div>
-
-      <div class="task">
-        <p class="instr">Завдання 2. У кожному рядку одне слово не пов'язане з літом. Натисни на нього.</p>
-        <div class="chips" data-mc data-answer="лижі">
-          <button class="chip" type="button">пляж</button>
-          <button class="chip" type="button">море</button>
-          <button class="chip" type="button">лижі</button>
-          <button class="chip" type="button">засмага</button>
+        <p class="instr"><span class="num-label">${idx+1}.</span> Натисни на слова в правильному порядку, щоб скласти речення.</p>
+        <div class="sb" data-correct="${s.c}">
+          <div class="sb-bank">${s.w.map(w=>`<button class="sb-word" type="button" data-word="${w}">${w}</button>`).join('')}</div>
+          <div class="sb-answer"></div>
+          <div class="sb-controls">
+            <button class="check-btn sb-check" type="button">Перевірити</button>
+            <button class="ghost-btn sb-reset" type="button">Скинути</button>
+          </div>
+          <p class="sb-feedback"></p>
         </div>
-        <div class="chips" data-mc data-answer="сніг">
-          <button class="chip" type="button">канікули</button>
-          <button class="chip" type="button">відпочинок</button>
-          <button class="chip" type="button">сніг</button>
-          <button class="chip" type="button">подорож</button>
+      </div>`).join('');
+
+    const contMC = [
+      {q:"Я дуже здивувалася, коли…", opts:["побачила новий велосипед у дворі","з'їла сніданок, як завжди","пішла спати о звичайній годині"], correct:0},
+      {q:"Ми зраділи, тому що…", opts:["виграли конкурс","запізнилися на урок","забули зошит удома"], correct:0},
+      {q:"Хлопець засмутився, тому що…", opts:["програв важливий матч","отримав похвалу від учителя","пішов гуляти з другом"], correct:0}
+    ];
+    const contHtml = contMC.map((m,idx)=>`
+      <div class="task">
+        <p class="instr"><span class="num-label">${idx+1}.</span> Обери правильне продовження речення.</p>
+        <div class="mc" data-correct="${m.correct}">
+          <p><b>${m.q}</b></p>
+          <div class="mc-options">
+            ${m.opts.map((o,k)=>`<button class="mc-opt" type="button" data-key="${k}">${o}</button>`).join('')}
+          </div>
+          <p class="mc-feedback"></p>
         </div>
-        <div class="chips" data-mc data-answer="мороз">
-          <button class="chip" type="button">кавун</button>
-          <button class="chip" type="button">мороз</button>
-          <button class="chip" type="button">суниці</button>
-          <button class="chip" type="button">спека</button>
-        </div>
-      </div>
+      </div>`).join('');
 
-      <div class="task">
-        <p class="instr">Завдання 3. Склади одне речення зі словами: <i>літо, подорож, цікава</i>.</p>
-        <textarea rows="2" placeholder="Напиши своє речення тут…"></textarea>
-      </div>
-    `;
-  }
-
-  if(i===2){
-    return label(2,"Слова теми «Літо»") + `
-      <p class="muted">Прочитай слова та приклади речень.</p>
-      <table class="vocab">
-        <tr><th>Слово</th><th>Пояснення</th><th>Приклад речення</th></tr>
-        <tr><td>літні канікули</td><td>час відпочинку від навчання влітку</td><td>Літні канікули тривають три місяці.</td></tr>
-        <tr><td>відпочинок</td><td>час, коли не працюють і не вчаться</td><td>Мені потрібен був відпочинок.</td></tr>
-        <tr><td>подорож</td><td>поїздка кудись</td><td>Наша подорож почалася зранку.</td></tr>
-        <tr><td>враження</td><td>почуття й думки після події</td><td>У мене гарні враження від табору.</td></tr>
-        <tr><td>проводити час</td><td>займатися чимось певний період</td><td>Я люблю проводити час на природі.</td></tr>
-        <tr><td>відвідати</td><td>побувати десь, прийти кудись</td><td>Ми відвідали бабусю в селі.</td></tr>
-        <tr><td>побувати</td><td>опинитися десь хоча б раз</td><td>Я вперше побувала на морі.</td></tr>
-        <tr><td>насолоджуватися</td><td>отримувати задоволення</td><td>Ми насолоджувалися теплою погодою.</td></tr>
-        <tr><td>узбережжя</td><td>місце біля моря</td><td>Ми жили недалеко від узбережжя.</td></tr>
-        <tr><td>табір відпочинку</td><td>місце, де діти відпочивають разом</td><td>Я їздила в табір відпочинку.</td></tr>
-        <tr><td>запам'яталося</td><td>те, що особливо запам'ятали</td><td>Найбільше запам'яталося купання в морі.</td></tr>
-        <tr><td>з нетерпінням чекати</td><td>дуже хотіти, щоб щось настало</td><td>Я з нетерпінням чекаю літа.</td></tr>
-      </table>
-
-      <div class="task">
-        <p class="instr">Встав підходяще слово в кожне речення.</p>
-        <p>1. Цього літа я їздила в
-          <select data-blank data-answer="подорож">
-            <option value="">оберіть слово</option>
-            <option>подорож</option><option>канікули</option><option>узбережжя</option>
-          </select> до моря.</p>
-        <p>2. Найбільше мені
-          <select data-blank data-answer="запам'яталася">
-            <option value="">оберіть слово</option>
-            <option>запам'яталася</option><option>відвідала</option><option>насолоджувалася</option>
-          </select> поїздка в гори.</p>
-        <p>3. Ми любили
-          <select data-blank data-answer="проводити">
-            <option value="">оберіть слово</option>
-            <option>проводити</option><option>побувати</option><option>чекати</option>
-          </select> час на річці.</p>
-        <button class="check-btn" id="checkBlanks" type="button">Перевірити</button>
-        <div class="answer-box" id="blanksResult"></div>
-      </div>
-    `;
-  }
-
-  if(i===3){
-    return label(3,"Текст «Літні канікули»") + `
-      <div class="reading-text">
-        <p>Літні канікули почалися наприкінці травня, одразу після завершення навчального року. Спочатку Оксана просто відпочивала вдома і висипалася після довгого навчального року. Через кілька днів родина вирішила поїхати на відпочинок до бабусі в село.</p>
-        <p>У селі дівчина проводила час на свіжому повітрі. Вранці вона допомагала бабусі в городі, а вдень ходила купатися на річку з друзями. Їй дуже сподобалося ловити рибу разом з дідусем, хоча спіймати вдалося лише кілька маленьких рибок.</p>
-        <p>У липні родина відвідала морське узбережжя. Вони орендували квартиру недалеко від пляжу і провели там десять днів. Оксана вперше каталася на водних лижах, і хоча спочатку було страшно, згодом їй дуже сподобалося. Ввечері родина гуляла набережною і куштувала морозиво.</p>
-        <p>Наприкінці літа дівчина побувала в таборі відпочинку разом з однокласниками. Там вона брала участь у спортивних змаганнях, майстер-класах з малювання та вечірніх іграх. Найбільше їй запам'яталося виступ на таборовому концерті, де вона разом з друзями співала пісню.</p>
-        <p>Літо закінчилося швидко, але залишило багато приємних вражень. Дівчина зрозуміла, що найбільше цінує час, проведений з родиною та друзями на природі. Вона з нетерпінням чекає наступного літа, щоб знову поїхати в табір і побачити море.</p>
-      </div>
-    `;
-  }
-
-  if(i===4){
-    const qa = (q,type)=>`
-      <div class="task">
-        <p class="instr">${type}</p>
-        <p>${q.q}</p>
-        <textarea rows="2" placeholder="Твоя відповідь…"></textarea>
-        <div><button class="reveal-btn" data-reveal type="button">Показати відповідь</button></div>
-        <div class="answer-box">${q.a}</div>
+    const finish = [
+      {s:"Ця подія дуже мене ___.", opts:["вразила","забула","пропустила"], a:"вразила"},
+      {s:"Я довго ___ цей день.", opts:["пам'ятала","загубила","готувала"], a:"пам'ятала"},
+      {s:"Ми з нетерпінням ___ канікул.", opts:["чекали","боялися","уникали"], a:"чекали"},
+      {s:"Дівчина ___ несподіваному подарунку.", opts:["зраділа","засмутилася","злякалася"], a:"зраділа"},
+      {s:"Це була ___ зустріч.", opts:["неочікувана","звичайна","нудна"], a:"неочікувана"}
+    ];
+    const finishHtml = `
+      <div class="task blankgroup">
+        <p class="instr">Обери слово, яким закінчується кожне речення.</p>
+        ${finish.map((f,idx)=>{
+          const parts = f.s.split('___');
+          return `<p>${idx+1}. ${parts[0]}
+            <select data-blank data-answer="${f.a}">
+              <option value="">оберіть слово</option>
+              ${f.opts.map(o=>`<option>${o}</option>`).join('')}
+            </select> ${parts[1]}</p>`;
+        }).join('')}
+        <button class="check-btn blank-check" type="button">Перевірити</button>
+        <div class="answer-box blank-result"></div>
       </div>`;
 
-    const A = [
-      {q:"1. Коли почалися літні канікули Оксани?", a:"Наприкінці травня."},
-      {q:"2. Куди родина поїхала спочатку?", a:"До бабусі в село."},
-      {q:"3. На чому вперше каталася Оксана на морі?", a:"Оксана вперше каталася на водних лижах."},
-      {q:"4. Що робила Оксана в таборі відпочинку?", a:"Вона брала участь у спортивних змаганнях, майстер-класах з малювання та вечірніх іграх."}
+    const odd = [
+      ["радість","сум","здивування","олівець"],
+      ["подія","враження","згадка","зошит"],
+      ["зрадіти","засмутитися","здивуватися","малювати"],
+      ["цікаво","приємно","весело","стіл"],
+      ["очікувати","згадувати","пишатися","готувати"]
     ];
-    const B = [
-      {q:"1. Чому Оксані спочатку було страшно кататися на водних лижах?", a:"Тому що це було для неї нове й незнайоме заняття."},
-      {q:"2. Чому дівчина з нетерпінням чекає наступного літа?", a:"Тому що літо принесло їй багато приємних вражень."},
-      {q:"3. Як ти думаєш, чому Оксані найбільше запам'ятався виступ на концерті?", a:"Тому що це був особливий момент, де вона разом з друзями виступала перед іншими."}
-    ];
-    const V = [
-      {q:"1. Яка частина літа Оксани сподобалася б тобі найбільше і чому?"},
-      {q:"2. Чи є в тебе схожі літні враження? Розкажи коротко."}
-    ];
+    const oddAnswers = ["олівець","зошит","малювати","стіл","готувати"];
+    const oddHtml = odd.map((set,idx)=>`
+      <div class="chips" data-mc-chip data-answer="${oddAnswers[idx]}">
+        ${set.map(w=>`<button class="chip" type="button">${w}</button>`).join('')}
+      </div>`).join('');
 
-    return label(4,"Запитання до тексту") + `
-      <h2 class="block-title">А. Знайди відповідь у тексті</h2>
-      ${A.map(x=>qa(x,"Коротка або повна відповідь")).join("")}
+    return label(1,"Мовленнєва розминка") + `
+      <h2 class="block-title">1. Збери речення</h2>
+      ${sbHtml}
 
-      <h2 class="block-title">Б. Подумай і поясни</h2>
-      ${B.map(x=>qa(x,"Повна відповідь")).join("")}
+      <h2 class="block-title">2. Обери продовження</h2>
+      ${contHtml}
 
-      <h2 class="block-title">В. Вислови власну думку</h2>
-      ${V.map(x=>`
-        <div class="task">
-          <p class="instr">Розгорнута відповідь — тут немає єдиної правильної відповіді.</p>
-          <p>${x.q}</p>
-          <textarea rows="3" placeholder="Твоя думка…"></textarea>
-        </div>`).join("")}
+      <h2 class="block-title">3. Закінчи речення</h2>
+      ${finishHtml}
+
+      <h2 class="block-title">4. Знайди зайве слово</h2>
+      <p class="instr">У кожному наборі одне слово не пов'язане з темою «подія та враження». Натисни на нього.</p>
+      ${oddHtml}
     `;
   }
 
-  if(i===5){
-    return label(5,"Розкажи послідовно") + `
-      <p>Події з тексту переплутані. Постав їх у правильному порядку за допомогою стрілок. Підказка: <b>спочатку → потім → після цього → згодом → наприкінці</b>.</p>
-      <ul class="order-list" id="orderList"></ul>
-      <button class="check-btn" id="checkOrder" type="button">Перевірити порядок</button>
-      <button class="ghost-btn" id="showOrder" type="button">Показати правильний порядок</button>
-      <p class="feedback-note" id="orderFeedback"></p>
+  /* ---------------- STEP 2 — VOCABULARY ---------------- */
+  if(i===2){
+    const vocab = [
+      ["здивуватися","відчути несподіванку","Я здивувалася, коли побачила новий велосипед."],
+      ["зацікавитися","відчути інтерес до чогось","Хлопець зацікавився стародавньою мапою."],
+      ["хвилюватися","відчувати тривогу перед чимось","Перед виступом я дуже хвилювалася."],
+      ["зрадіти","відчути радість","Дівчина зраділа несподіваному подарунку."],
+      ["засмутитися","відчути смуток","Він засмутився, коли програв гру."],
+      ["запам'ятатися","залишитися в пам'яті надовго","Ця подія запам'яталася мені найбільше."],
+      ["вразити","справити сильне враження","Виступ артистів вразив глядачів."],
+      ["сподобатися","викликати приємне враження","Мені сподобалася нова вистава."],
+      ["очікувати","чекати на щось наперед","Ми очікували на початок концерту."],
+      ["неочікуваний","такий, якого не чекали","Це була неочікувана новина."],
+      ["незвичайний","не такий, як завжди","У парку відбулася незвичайна подія."],
+      ["приємний","такий, що викликає задоволення","У нас була приємна розмова."],
+      ["цікаво","із зацікавленням, живо","Мені було цікаво дізнатися більше."],
+      ["особливо","більше, ніж зазвичай","Особливо мені сподобався фінал змагань."],
+      ["пишатися","відчувати гордість","Батьки пишалися його успіхом."]
+    ];
+    const vocabRows = vocab.map(v=>`<tr><td>${v[0]}</td><td>${v[1]}</td><td>${v[2]}</td></tr>`).join('');
 
-      <div class="task" style="margin-top:22px">
-        <p class="instr">Коли порядок готовий — розкажи текст усно за цим планом, використовуючи слова спочатку, потім, після цього, згодом, наприкінці.</p>
+    const matchDef = [
+      ["здивуватися","відчути несподіванку"],
+      ["запам'ятатися","залишитися в пам'яті надовго"],
+      ["вразити","справити сильне враження"],
+      ["очікувати","чекати на щось наперед"],
+      ["пишатися","відчувати гордість"]
+    ];
+    const matchDefOpts = matchDef.map((p,i2)=>({key:String.fromCharCode(97+i2), text:p[1]}));
+    const matchDefHtml = `
+      <div class="task">
+        <p class="instr">1. З'єднай слово з поясненням: обери правильну літеру для кожного слова.</p>
+        <div class="match">
+          ${matchDef.map((p,idx)=>{
+            const key = String.fromCharCode(97+idx);
+            return `<div class="match-row" data-correct="${key}">
+              <span class="match-left">${p[0]}</span>
+              <select class="match-select">
+                <option value="">оберіть пояснення</option>
+                ${matchDefOpts.map(o=>`<option value="${o.key}">${o.key}) ${o.text}</option>`).join('')}
+              </select>
+            </div>`;
+          }).join('')}
+          <button class="check-btn match-check" type="button">Перевірити</button>
+          <p class="match-feedback"></p>
+        </div>
+      </div>`;
+
+    const matchEmo = [
+      ["Я побачила сніг у липні.","здивуватися"],
+      ["Мені подарували цуценя.","зрадіти"],
+      ["Я загубила улюблену книжку.","засмутитися"],
+      ["Завтра в мене важливий іспит.","хвилюватися"],
+      ["Я перемогла в конкурсі малюнків.","пишатися"]
+    ];
+    const emoOpts = matchEmo.map((p,i2)=>({key:String.fromCharCode(97+i2), text:p[1]}));
+    const matchEmoHtml = `
+      <div class="task">
+        <p class="instr">2. З'єднай ситуацію з емоцією, яку вона викликає.</p>
+        <div class="match">
+          ${matchEmo.map((p,idx)=>{
+            const key = String.fromCharCode(97+idx);
+            return `<div class="match-row" data-correct="${key}">
+              <span class="match-left">${p[0]}</span>
+              <select class="match-select">
+                <option value="">оберіть емоцію</option>
+                ${emoOpts.map(o=>`<option value="${o.key}">${o.text}</option>`).join('')}
+              </select>
+            </div>`;
+          }).join('')}
+          <button class="check-btn match-check" type="button">Перевірити</button>
+          <p class="match-feedback"></p>
+        </div>
+      </div>`;
+
+    const chooseWord = [
+      {s:"Дівчина дуже ___, коли побачила море вперше.", opts:["здивувалася","засмутилася","очікувала"], correct:0},
+      {s:"Хлопець ___ на початок гри.", opts:["зрадів","очікував","вразив"], correct:1},
+      {s:"Батьки дуже ___ моїм результатом.", opts:["пишалися","здивувалися","засмутилися"], correct:0}
+    ];
+    const chooseWordHtml = chooseWord.map((c,idx)=>{
+      const parts = c.s.split('___');
+      return `<div class="task">
+        <p class="instr"><span class="num-label">${idx+1}.</span> Обери відповідне слово.</p>
+        <div class="mc" data-correct="${c.correct}">
+          <p>${parts[0]}<b>___</b>${parts[1]}</p>
+          <div class="mc-options">
+            ${c.opts.map((o,k)=>`<button class="mc-opt" type="button" data-key="${k}">${o}</button>`).join('')}
+          </div>
+          <p class="mc-feedback"></p>
+        </div>
+      </div>`;
+    }).join('');
+
+    const complete = [
+      "Мені сподобалося, ______.",
+      "Я здивувалася, коли ______.",
+      "Найбільше мене вразило ______."
+    ];
+    const completeHtml = complete.map((c,idx)=>`
+      <div class="task">
+        <p class="instr"><span class="num-label">${idx+1}.</span> Доповни речення власними словами.</p>
+        <textarea rows="2" placeholder="Твоя відповідь…"></textarea>
+      </div>`).join('');
+
+    const makeWord = ["запам'ятатися","неочікуваний"];
+    const makeWordHtml = makeWord.map((w,idx)=>`
+      <div class="task">
+        <p class="instr"><span class="num-label">${idx+1}.</span> Склади своє речення зі словом «<b>${w}</b>».</p>
+        <textarea rows="2" placeholder="Твоє речення…"></textarea>
+        <div><button class="reveal-btn" data-reveal type="button">Показати приклад</button></div>
+        <div class="answer-box">${idx===0 ? "Приклад: Ця подія запам'яталася мені на все життя." : "Приклад: Для мене це було неочікуваним, але приємним сюрпризом."}</div>
+      </div>`).join('');
+
+    return label(2,"Слова, які описують враження") + `
+      <p class="muted">Прочитай слова та приклади речень.</p>
+      <div class="table-wrap">
+        <table class="vocab">
+          <tr><th>Слово</th><th>Пояснення</th><th>Приклад речення</th></tr>
+          ${vocabRows}
+        </table>
+      </div>
+
+      <h2 class="block-title">Вправи</h2>
+      ${matchDefHtml}
+      ${matchEmoHtml}
+      <div class="task">
+        <p class="instr">3. Обери правильне слово в реченні.</p>
+        ${chooseWordHtml}
+      </div>
+      <div class="task">
+        <p class="instr">4. Доповни речення.</p>
+        ${completeHtml}
+      </div>
+      <div class="task">
+        <p class="instr">5. Склади речення зі словом.</p>
+        ${makeWordHtml}
       </div>
     `;
   }
 
+  /* ---------------- STEP 3 — SENTENCE BUILDING ---------------- */
+  if(i===3){
+    const sbSet = [
+      {c:"Мені найбільше запам'яталася ця подія.", w:["мені","найбільше","запам'яталася","ця","подія"]},
+      {c:"Учора трапилася дуже цікава історія.", w:["учора","трапилася","дуже","цікава","історія"]},
+      {c:"Я здивувалася несподіваній новині.", w:["я","здивувалася","несподіваній","новині"]},
+      {c:"Ця подія залишила в мене приємні враження.", w:["ця","подія","залишила","в мене","приємні","враження"]},
+      {c:"Мої друзі теж були вражені цією історією.", w:["мої","друзі","теж","були","вражені","цією","історією"]},
+      {c:"Я довго згадувала той незвичайний день.", w:["я","довго","згадувала","той","незвичайний","день"]},
+      {c:"Коли все закінчилося, я відчула справжню радість.", w:["коли","все","закінчилося","я","відчула","справжню","радість"]},
+      {c:"Це була подія, яку я ніколи не забуду.", w:["це","була","подія","яку","я","ніколи","не забуду"]}
+    ];
+    const sbHtml = sbSet.map((s,idx)=>`
+      <div class="task">
+        <p class="instr"><span class="num-label">${idx+1}.</span> Склади речення зі слів. Речення поступово стають довшими — це нормально.</p>
+        <div class="sb" data-correct="${s.c}">
+          <div class="sb-bank">${s.w.map(w=>`<button class="sb-word" type="button" data-word="${w}">${w}</button>`).join('')}</div>
+          <div class="sb-answer"></div>
+          <div class="sb-controls">
+            <button class="check-btn sb-check" type="button">Перевірити</button>
+            <button class="ghost-btn sb-reset" type="button">Скинути</button>
+          </div>
+          <p class="sb-feedback"></p>
+        </div>
+      </div>`).join('');
+
+    return label(3,"Складаємо речення з частин") + `
+      ${sbHtml}
+
+      <h2 class="block-title">Додай своє слово</h2>
+      <div class="task">
+        <p class="instr">9. Допиши речення, додавши 1–2 власні слова замість пропуску.</p>
+        <p>Ця подія була для мене ______.</p>
+        <textarea rows="2" placeholder="Наприклад: особливою / незвичайною / дуже теплою…"></textarea>
+      </div>
+      <div class="task">
+        <p class="instr">10. Допиши речення, додавши 1–2 власні слова замість пропуску.</p>
+        <p>Найбільше мене вразило ______.</p>
+        <textarea rows="2" placeholder="Твоє продовження…"></textarea>
+      </div>
+    `;
+  }
+
+  /* ---------------- STEP 4 — READING TEXT ---------------- */
+  if(i===4){
+    return label(4,"Текст «День, який запам'ятався»") + `
+      <div class="reading-text">
+        <p>У п'ятницю ввечері в шкільному чаті з'явилося повідомлення: у суботу о десятій годині в актовій залі школи відбудеться конкурс роботів. Дмитро навчався в дев'ятому класі і вже два місяці збирав власного робота на заняттях гуртка. Він трохи хвилювався, але вирішив узяти участь.</p>
+        <p>У суботу вранці Дмитро прийшов до школи разом із мамою. У залі вже зібралося багато учасників з різних класів, усюди лунали розмови й сміх. Дмитро зареєструвався і поставив свого робота на стіл номер шість.</p>
+        <p>Коли настала його черга, Дмитро натиснув кнопку, щоб робот почав рух. Але робот раптом зупинився і не рухався далі. Хлопець дуже засмутився, адже готувався до цього моменту кілька тижнів. Він швидко перевірив проводи і побачив, що один із них від'єднався під час перевезення.</p>
+        <p>Учитель робототехніки, пан Олег, підійшов і допоміг Дмитрові приєднати провід назад. Через кілька хвилин робот знову запрацював. Дмитро натиснув кнопку ще раз, і цього разу робот проїхав через усі перешкоди без жодної помилки. Глядачі в залі заплескали в долоні. Дмитро дуже зрадів, адже не очікував, що після невдачі все зрештою вийде так добре.</p>
+        <p>Наприкінці конкурсу журі оголосило результати. Дмитро не отримав перше місце, але його робота відзначили спеціальним призом «За найкращий дизайн». Це стало для нього приємною несподіванкою. Він пишався тим, що не здався після першої невдачі.</p>
+        <p>Повертаючись додому, Дмитро розповідав мамі про кожну хвилину конкурсу. Він зрозумів, що навіть коли щось спочатку не виходить, варто спробувати ще раз. Ця подія запам'яталася йому надовго, і тепер він з нетерпінням очікує наступного конкурсу роботів.</p>
+      </div>
+    `;
+  }
+
+  /* ---------------- STEP 5 — WORK WITH TEXT, PART 1 ---------------- */
+  if(i===5){
+    const tf = [
+      {s:"Конкурс роботів відбувся в суботу.", a:true},
+      {s:"Дмитро навчався у восьмому класі.", a:false},
+      {s:"Робот Дмитра зупинився через від'єднаний провід.", a:true},
+      {s:"Дмитро отримав перше місце в конкурсі.", a:false}
+    ];
+    const tfHtml = tf.map((t,idx)=>`
+      <div class="task">
+        <p class="instr"><span class="num-label">${idx+1}.</span> Правда чи неправда?</p>
+        <div class="mc" data-correct="${t.a ? 0 : 1}">
+          <p>${t.s}</p>
+          <div class="mc-options">
+            <button class="mc-opt" type="button" data-key="0">Правда</button>
+            <button class="mc-opt" type="button" data-key="1">Неправда</button>
+          </div>
+          <p class="mc-feedback"></p>
+        </div>
+      </div>`).join('');
+
+    const mcSet = [
+      {q:"Хто допоміг Дмитрові полагодити робота?", opts:["мама","учитель робототехніки","однокласник"], correct:1},
+      {q:"Де відбувався конкурс?", opts:["в актовій залі школи","на стадіоні","удома"], correct:0},
+      {q:"Який приз отримав Дмитро?", opts:["перше місце","приз «За найкращий дизайн»","нічого не отримав"], correct:1}
+    ];
+    const mcHtml = mcSet.map((m,idx)=>`
+      <div class="task">
+        <p class="instr"><span class="num-label">${idx+1}.</span> Обери правильну відповідь.</p>
+        <div class="mc" data-correct="${m.correct}">
+          <p>${m.q}</p>
+          <div class="mc-options">${m.opts.map((o,k)=>`<button class="mc-opt" type="button" data-key="${k}">${o}</button>`).join('')}</div>
+          <p class="mc-feedback"></p>
+        </div>
+      </div>`).join('');
+
+    return label(5,"Працюємо з текстом · частина 1") + `
+      <h2 class="block-title">1. Правда чи неправда</h2>
+      ${tfHtml}
+
+      <h2 class="block-title">2. Обери правильну відповідь</h2>
+      ${mcHtml}
+
+      <h2 class="block-title">3. Розстав події в правильному порядку</h2>
+      <p class="instr">Натискай стрілки ↑ ↓, щоб змінити порядок подій за текстом.</p>
+      <ul class="order-list" id="eventsOrder"></ul>
+      <button class="check-btn" id="checkEventsOrder" type="button">Перевірити порядок</button>
+      <button class="ghost-btn" id="showEventsOrder" type="button">Показати правильний порядок</button>
+      <p class="feedback-note" id="eventsOrderFeedback"></p>
+    `;
+  }
+
+  /* ---------------- STEP 6 — WORK WITH TEXT, PART 2 ---------------- */
   if(i===6){
-    return label(6,"Розповідь про моє літо") + `
-      <p>Обери рівень складності та розкажи про своє літо. Можна натискати на фрази-опори — вони додадуться в текст.</p>
+    const matchEE = [
+      ["Робот зупинився.","засмутився"],
+      ["Робот успішно проїхав перешкоди.","зрадів"],
+      ["Отримав приз за дизайн.","пишався"],
+      ["Побачив повідомлення про конкурс.","зацікавився"]
+    ];
+    const eeOpts = matchEE.map((p,i2)=>({key:String.fromCharCode(97+i2), text:p[1]}));
+    const matchEEHtml = `
+      <div class="task">
+        <p class="instr">1. З'єднай подію з емоцією Дмитра.</p>
+        <div class="match">
+          ${matchEE.map((p,idx)=>{
+            const key = String.fromCharCode(97+idx);
+            return `<div class="match-row" data-correct="${key}">
+              <span class="match-left">${p[0]}</span>
+              <select class="match-select"><option value="">оберіть емоцію</option>${eeOpts.map(o=>`<option value="${o.key}">${o.text}</option>`).join('')}</select>
+            </div>`;
+          }).join('')}
+          <button class="check-btn match-check" type="button">Перевірити</button>
+          <p class="match-feedback"></p>
+        </div>
+      </div>`;
+
+    const matchER = [
+      ["засмутився","бо провід від'єднався"],
+      ["зрадів","бо робот проїхав без помилок"],
+      ["пишався","бо не здався після невдачі"],
+      ["здивувався","бо отримав приз, хоча не зайняв перше місце"]
+    ];
+    const erOpts = matchER.map((p,i2)=>({key:String.fromCharCode(97+i2), text:p[1]}));
+    const matchERHtml = `
+      <div class="task">
+        <p class="instr">2. З'єднай емоцію з її причиною.</p>
+        <div class="match">
+          ${matchER.map((p,idx)=>{
+            const key = String.fromCharCode(97+idx);
+            return `<div class="match-row" data-correct="${key}">
+              <span class="match-left">${p[0]}</span>
+              <select class="match-select"><option value="">оберіть причину</option>${erOpts.map(o=>`<option value="${o.key}">${o.text}</option>`).join('')}</select>
+            </div>`;
+          }).join('')}
+          <button class="check-btn match-check" type="button">Перевірити</button>
+          <p class="match-feedback"></p>
+        </div>
+      </div>`;
+
+    const oddSentence = [
+      "Дмитро збирав робота два місяці.",
+      "У залі зібралося багато учасників.",
+      "Мама Дмитра любить готувати борщ.",
+      "Учитель допоміг приєднати провід."
+    ];
+    const oddHtml = `
+      <div class="task">
+        <p class="instr">3. Яке з цих речень НЕ стосується подій тексту?</p>
+        <div class="mc" data-correct="2">
+          <div class="mc-options">${oddSentence.map((o,k)=>`<button class="mc-opt" type="button" data-key="${k}">${o}</button>`).join('')}</div>
+          <p class="mc-feedback"></p>
+        </div>
+      </div>`;
+
+    const blanks = [
+      {s:"У ___ ввечері в чаті з'явилося повідомлення.", opts:["п'ятницю","суботу","неділю"], a:"п'ятницю"},
+      {s:"Дмитро ___ власного робота два місяці.", opts:["збирав","малював","читав"], a:"збирав"},
+      {s:"Робот раптом ___ і не рухався далі.", opts:["зупинився","поїхав","засміявся"], a:"зупинився"},
+      {s:"Глядачі в залі ___ в долоні.", opts:["заплескали","замовкли","заспівали"], a:"заплескали"},
+      {s:"Дмитро отримав приз «За найкращий ___».", opts:["дизайн","бал","малюнок"], a:"дизайн"}
+    ];
+    const blanksHtml = `
+      <div class="task blankgroup">
+        <p class="instr">4. Встав пропущене слово в кожне речення з тексту.</p>
+        ${blanks.map((b,idx)=>{
+          const parts = b.s.split('___');
+          return `<p>${idx+1}. ${parts[0]}<select data-blank data-answer="${b.a}"><option value="">оберіть слово</option>${b.opts.map(o=>`<option>${o}</option>`).join('')}</select>${parts[1]}</p>`;
+        }).join('')}
+        <button class="check-btn blank-check" type="button">Перевірити</button>
+        <div class="answer-box blank-result"></div>
+      </div>`;
+
+    const whoWhere = [
+      ["Хто?","Дмитро"],
+      ["Де?","в актовій залі школи"],
+      ["Коли?","у суботу вранці"],
+      ["Що зробив?","взяв участь у конкурсі роботів"]
+    ];
+    const wwOpts = whoWhere.map((p,i2)=>({key:String.fromCharCode(97+i2), text:p[1]}));
+    const wwHtml = `
+      <div class="task">
+        <p class="instr">5. Хто? Де? Коли? Що зробив? — з'єднай запитання з правильною відповіддю.</p>
+        <div class="match">
+          ${whoWhere.map((p,idx)=>{
+            const key = String.fromCharCode(97+idx);
+            return `<div class="match-row" data-correct="${key}">
+              <span class="match-left">${p[0]}</span>
+              <select class="match-select"><option value="">оберіть відповідь</option>${wwOpts.map(o=>`<option value="${o.key}">${o.text}</option>`).join('')}</select>
+            </div>`;
+          }).join('')}
+          <button class="check-btn match-check" type="button">Перевірити</button>
+          <p class="match-feedback"></p>
+        </div>
+      </div>`;
+
+    const mainIdea = [
+      "Дмитро дізнався, що варто спробувати ще раз, навіть якщо щось не вдається одразу.",
+      "Дмитро вирішив більше ніколи не брати участь у конкурсах.",
+      "Головне в конкурсі — перемогти будь-якою ціною."
+    ];
+    const mainIdeaHtml = `
+      <div class="task">
+        <p class="instr">6. Знайди головну думку тексту.</p>
+        <div class="mc" data-correct="0">
+          <div class="mc-options">${mainIdea.map((o,k)=>`<button class="mc-opt" type="button" data-key="${k}">${o}</button>`).join('')}</div>
+          <p class="mc-feedback"></p>
+        </div>
+      </div>`;
+
+    return label(6,"Працюємо з текстом · частина 2") + `
+      ${matchEEHtml}
+      ${matchERHtml}
+      ${oddHtml}
+      ${blanksHtml}
+      ${wwHtml}
+      ${mainIdeaHtml}
+
+      <div class="task">
+        <p class="instr">7. Розгорнута відповідь — тут немає єдиної правильної відповіді.</p>
+        <p>Як ти думаєш, чому приз «За найкращий дизайн» став для Дмитра приємною несподіванкою?</p>
+        <textarea rows="3" placeholder="Твоя думка…"></textarea>
+        <div><button class="reveal-btn" data-reveal type="button">Показати приклад відповіді</button></div>
+        <div class="answer-box">Приклад: Тому що Дмитро не зайняв перше місце, але все одно отримав визнання за свою роботу — це було неочікувано приємно.</div>
+      </div>
+    `;
+  }
+
+  /* ---------------- STEP 7 — RESTORE TEXT ---------------- */
+  if(i===7){
+    return label(7,"Відновлюємо текст") + `
+      <h2 class="block-title">1. Постав речення в правильному порядку</h2>
+      <p>Ці речення взято з тексту. Постав їх у правильному порядку за допомогою стрілок ↑ ↓.</p>
+      <ul class="order-list" id="restoreOrder"></ul>
+      <button class="check-btn" id="checkRestoreOrder" type="button">Перевірити порядок</button>
+      <button class="ghost-btn" id="showRestoreOrder" type="button">Показати правильний порядок</button>
+      <p class="feedback-note" id="restoreOrderFeedback"></p>
+
+      <h2 class="block-title">2. Знайди помилку в реченні</h2>
+      <div class="task">
+        <p class="instr">Яке з цих речень побудовано неправильно?</p>
+        <div class="mc" data-correct="1">
+          <div class="mc-options">
+            <button class="mc-opt" type="button" data-key="0">Дмитро дуже зрадів своєму успіху.</button>
+            <button class="mc-opt" type="button" data-key="1">Дмитро дуже зрадів своєму успіхом.</button>
+            <button class="mc-opt" type="button" data-key="2">Дмитро дуже зрадів, коли робот запрацював.</button>
+          </div>
+          <p class="mc-feedback"></p>
+        </div>
+      </div>
+
+      <h2 class="block-title">3. Об'єднай прості речення в одне зв'язне</h2>
+      <div class="task">
+        <p class="instr">Використай слова «хоча», «і», «тому що» або «коли», щоб з'єднати ці речення в одне.</p>
+        <p><i>Дмитро прийшов на конкурс. Він хвилювався. Він вирішив спробувати.</i></p>
+        <textarea rows="2" placeholder="Твоє речення…"></textarea>
+        <div><button class="reveal-btn" data-reveal type="button">Показати приклад</button></div>
+        <div class="answer-box">Приклад: Дмитро прийшов на конкурс, хоча хвилювався, і вирішив спробувати.</div>
+      </div>
+
+      <h2 class="block-title">4. Продовж історію</h2>
+      <div class="task">
+        <p class="instr">Немає єдиної правильної відповіді — напиши, що могло статися далі.</p>
+        <p><i>Через тиждень Дмитро отримав запрошення на ще один конкурс роботів. Він…</i></p>
+        <textarea rows="4" placeholder="Продовж історію…"></textarea>
+      </div>
+    `;
+  }
+
+  /* ---------------- STEP 8 — MY STORY ---------------- */
+  if(i===8){
+    const starts = ["Одного дня зі мною сталася цікава подія.","Минулого тижня я пережила незвичайний день.","Нещодавно зі мною трапилося дещо несподіване."];
+    const events = ["Я дізналася важливу новину.","Я взяла участь у змаганні.","Я зустріла давнього друга."];
+    const emotions = ["Спочатку я дуже здивувалася.","Спочатку я хвилювалася.","Спочатку мені було цікаво."];
+    const endings = ["Ця подія запам'яталася мені надовго.","Я була рада, що все так склалося.","Тепер я з радістю згадую цей день."];
+    const opt = arr => arr.map(o=>`<option>${o}</option>`).join('');
+
+    return label(8,"Моя розповідь") + `
+      <h2 class="block-title">1. Склади коротку розповідь із готових блоків</h2>
+      <div class="task">
+        <p class="instr">Обери один варіант для кожної частини — вийде коротка розповідь.</p>
+        <p>Початок: <select id="blkStart"><option value="">оберіть варіант</option>${opt(starts)}</select></p>
+        <p>Подія: <select id="blkEvent"><option value="">оберіть варіант</option>${opt(events)}</select></p>
+        <p>Емоція: <select id="blkEmotion"><option value="">оберіть варіант</option>${opt(emotions)}</select></p>
+        <p>Завершення: <select id="blkEnd"><option value="">оберіть варіант</option>${opt(endings)}</select></p>
+        <button class="check-btn" id="buildStoryBtn" type="button">Показати мою розповідь</button>
+        <div class="answer-box" id="storyPreview"></div>
+      </div>
+
+      <h2 class="block-title">2. Розкажи про свою власну подію</h2>
+      <p>Обери рівень складності. Можна натискати на фрази-опори — вони додадуться в текст.</p>
       <div class="chips">
-        ${supportPhrases.map(p=>`<button class="chip" data-insert="${p}" type="button">${p}</button>`).join("")}
+        ${supportPhrases.map(p=>`<button class="chip" data-insert="${p}" type="button">${p}</button>`).join('')}
       </div>
       <div class="level-tabs">
         <button class="level-tab active" data-level="1" type="button">Базовий рівень</button>
         <button class="level-tab" data-level="2" type="button">Складніший рівень</button>
       </div>
       <div class="level-pane active" data-pane="1">
-        <p class="muted">Склади 5–6 речень про своє літо, використовуючи опори.</p>
-        <textarea rows="6" id="level1" placeholder="Цього літа я…"></textarea>
+        <p class="muted">Склади 5–6 речень про подію, яка тебе вразила чи здивувала, використовуючи опори.</p>
+        <textarea rows="6" id="level1" placeholder="Одного дня зі мною…"></textarea>
       </div>
       <div class="level-pane" data-pane="2">
-        <p class="muted">Склади зв'язну розповідь із 8–10 речень. Спробуй використати слова з лексичного блоку.</p>
-        <textarea rows="9" id="level2" placeholder="Цього літа я…"></textarea>
+        <p class="muted">Склади зв'язну розповідь із 8–10 речень. Спробуй використати слова з лексичного блоку (здивуватися, вразити, запам'ятатися, пишатися…).</p>
+        <textarea rows="9" id="level2" placeholder="Одного дня зі мною…"></textarea>
+      </div>
+
+      <h2 class="block-title">3. Усний переказ</h2>
+      <div class="task">
+        <p class="instr">Коли розповідь готова — розкажи її усно, використовуючи слова: спочатку, потім, після цього, згодом, наприкінці.</p>
       </div>
     `;
   }
 
-  if(i===7){
-    return label(7,"Підсумок уроку") + `
+  /* ---------------- STEP 9 — SUMMARY ---------------- */
+  if(i===9){
+    return label(9,"Підсумок уроку") + `
       <div class="task"><p class="instr">Що сьогодні було найцікавішим?</p><textarea rows="2"></textarea></div>
       <div class="task"><p class="instr">Яке нове слово запам'яталося?</p><textarea rows="2"></textarea></div>
       <div class="task"><p class="instr">Що було легким?</p><textarea rows="2"></textarea></div>
@@ -624,19 +1065,24 @@ function stepContent(i){
     `;
   }
 
-  if(i===8){
-    return label(8,"Домашнє завдання") + `
+  /* ---------------- STEP 10 — HOMEWORK ---------------- */
+  if(i===10){
+    return label(10,"Домашнє завдання") + `
       <p>Обери один варіант.</p>
       <div class="radio-row" id="homeChoice">
-        <label><input type="radio" name="home"><span>Напиши 6–8 речень про один літній день, який тобі запам'ятався.</span></label>
-        <label><input type="radio" name="home"><span>Запиши короткий усний переказ тексту «Літні канікули» (аудіо або відео, 1–2 хвилини).</span></label>
+        <label><input type="radio" name="home"><span>Напиши 6–8 речень про подію, яка тебе здивувала або вразила.</span></label>
+        <label><input type="radio" name="home"><span>Запиши короткий усний переказ тексту «День, який запам'ятався» (аудіо або відео, 1–2 хвилини).</span></label>
       </div>
-      <p class="muted">На виконання знадобиться приблизно 10–15 хвилин. Дякую за урок! 🌞</p>
+      <p class="muted">На виконання знадобиться приблизно 10–15 хвилин. Дякую за урок! ✨</p>
     `;
   }
 
   return "";
 }
+
+/* ============================================================
+   WIRING
+   ============================================================ */
 
 function renderProgress(){
   const wrap = document.getElementById('progress');
@@ -649,50 +1095,71 @@ function renderProgress(){
 }
 
 function wireStep(i){
-  // multiple-choice "find the odd word"
-  document.querySelectorAll('[data-mc]').forEach(group=>{
+  const card = document.getElementById('stepCard');
+
+  initReveal(card);
+  initBlankGroups(card);
+  initMC(card);
+  initMatch(card);
+  initSentenceBuilders(card);
+
+  // "find the odd word" chip groups (used in step 1)
+  card.querySelectorAll('[data-mc-chip]').forEach(group=>{
+    if(group.dataset.wired) return;
+    group.dataset.wired = "1";
     group.querySelectorAll('.chip').forEach(btn=>{
       btn.addEventListener('click', ()=>{
         group.querySelectorAll('.chip').forEach(b=>b.style.background='');
         const correct = btn.textContent.trim() === group.dataset.answer;
-        btn.style.background = correct ? '#DDEFE6' : '#F6E3C4';
+        btn.style.background = correct ? 'var(--reveal-bg)' : 'var(--wrong-bg)';
       });
     });
   });
 
-  // fill-in blanks check
-  const checkBlanks = document.getElementById('checkBlanks');
-  if(checkBlanks){
-    checkBlanks.addEventListener('click', ()=>{
-      const selects = document.querySelectorAll('[data-blank]');
-      let allCorrect = true;
-      selects.forEach(s=>{ if(s.value !== s.dataset.answer) allCorrect = false; });
-      const box = document.getElementById('blanksResult');
-      box.classList.add('show');
-      box.textContent = allCorrect
-        ? "Чудово! Усі слова підібрано правильно."
-        : "Перевір ще раз: подорож · запам'яталася · проводити.";
-    });
-  }
-
-  // reveal answers
-  document.querySelectorAll('[data-reveal]').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      const box = btn.parentElement.nextElementSibling;
-      const isShown = box.classList.toggle('show');
-      btn.textContent = isShown ? "Сховати відповідь" : "Показати відповідь";
-    });
-  });
-
-  // order exercise
   if(i===5){
-    renderOrderList();
-    document.getElementById('checkOrder').addEventListener('click', checkOrderList);
-    document.getElementById('showOrder').addEventListener('click', showCorrectOrder);
+    buildOrderList('eventsOrder', [
+      {id:1, text:"Дмитро отримав приз «За найкращий дизайн».", correct:6},
+      {id:2, text:"У чаті з'явилося повідомлення про конкурс.", correct:1},
+      {id:3, text:"Робот успішно проїхав через усі перешкоди.", correct:5},
+      {id:4, text:"Робот зупинився через від'єднаний провід.", correct:3},
+      {id:5, text:"Дмитро зареєструвався і поставив робота на стіл.", correct:2},
+      {id:6, text:"Учитель допоміг приєднати провід назад.", correct:4}
+    ]);
+    document.getElementById('checkEventsOrder').addEventListener('click', ()=>checkOrderList('eventsOrder','eventsOrderFeedback'));
+    document.getElementById('showEventsOrder').addEventListener('click', ()=>showCorrectOrder('eventsOrder','eventsOrderFeedback'));
   }
 
-  // insert chips into textarea (level pane)
-  if(i===6){
+  if(i===7){
+    buildOrderList('restoreOrder', [
+      {id:1, text:"Робот раптом зупинився і не рухався далі.", correct:3},
+      {id:2, text:"Дмитро зареєструвався і поставив робота на стіл номер шість.", correct:1},
+      {id:3, text:"Учитель допоміг приєднати провід назад.", correct:6},
+      {id:4, text:"Хлопець дуже засмутився, адже готувався кілька тижнів.", correct:4},
+      {id:5, text:"Коли настала його черга, він натиснув кнопку.", correct:2},
+      {id:6, text:"Робот знову запрацював, і глядачі заплескали.", correct:7},
+      {id:7, text:"Він перевірив проводи і знайшов проблему.", correct:5}
+    ]);
+    document.getElementById('checkRestoreOrder').addEventListener('click', ()=>checkOrderList('restoreOrder','restoreOrderFeedback'));
+    document.getElementById('showRestoreOrder').addEventListener('click', ()=>showCorrectOrder('restoreOrder','restoreOrderFeedback'));
+  }
+
+  if(i===8){
+    const buildBtn = document.getElementById('buildStoryBtn');
+    if(buildBtn){
+      buildBtn.addEventListener('click', ()=>{
+        const s = document.getElementById('blkStart').value;
+        const e = document.getElementById('blkEvent').value;
+        const em = document.getElementById('blkEmotion').value;
+        const en = document.getElementById('blkEnd').value;
+        const box = document.getElementById('storyPreview');
+        box.classList.add('show');
+        if(!s || !e || !em || !en){
+          box.textContent = "Обери варіант для всіх чотирьох частин, щоб побачити розповідь.";
+        } else {
+          box.textContent = `${s} ${e} ${em} ${en}`;
+        }
+      });
+    }
     document.querySelectorAll('[data-insert]').forEach(chip=>{
       chip.addEventListener('click', ()=>{
         const activePane = document.querySelector('.level-pane.active textarea');
@@ -712,8 +1179,7 @@ function wireStep(i){
     });
   }
 
-  // homework radio highlight
-  if(i===8){
+  if(i===10){
     document.querySelectorAll('#homeChoice label').forEach(l=>{
       l.addEventListener('click', ()=>{
         document.querySelectorAll('#homeChoice label').forEach(x=>x.classList.remove('picked'));
@@ -721,61 +1187,6 @@ function wireStep(i){
       });
     });
   }
-}
-
-function renderOrderList(){
-  const ul = document.getElementById('orderList');
-  ul.innerHTML = "";
-  orderItems.forEach((item, idx)=>{
-    const li = document.createElement('li');
-    li.className = 'order-item';
-    li.dataset.id = item.id;
-    li.innerHTML = `
-      <span class="num">${idx+1}</span>
-      <span class="txt">${item.text}</span>
-      <span class="order-controls">
-        <button type="button" data-dir="up" aria-label="Вгору">↑</button>
-        <button type="button" data-dir="down" aria-label="Вниз">↓</button>
-      </span>`;
-    ul.appendChild(li);
-  });
-  ul.querySelectorAll('button').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      const li = btn.closest('.order-item');
-      const id = parseInt(li.dataset.id);
-      const idx = orderItems.findIndex(o=>o.id===id);
-      const dir = btn.dataset.dir;
-      if(dir==='up' && idx>0){
-        [orderItems[idx-1], orderItems[idx]] = [orderItems[idx], orderItems[idx-1]];
-      }
-      if(dir==='down' && idx<orderItems.length-1){
-        [orderItems[idx+1], orderItems[idx]] = [orderItems[idx], orderItems[idx+1]];
-      }
-      renderOrderList();
-    });
-  });
-}
-
-function checkOrderList(){
-  let correctCount = 0;
-  document.querySelectorAll('.order-item').forEach((li, idx)=>{
-    const id = parseInt(li.dataset.id);
-    const item = orderItems.find(o=>o.id===id);
-    const isRight = item.correct === idx+1;
-    li.classList.toggle('correct', isRight);
-    if(isRight) correctCount++;
-  });
-  const fb = document.getElementById('orderFeedback');
-  fb.textContent = correctCount === orderItems.length
-    ? "Чудово, увесь порядок правильний!"
-    : `Правильно розташовано подій: ${correctCount} з ${orderItems.length}. Спробуй ще раз або подивись підказку.`;
-}
-
-function showCorrectOrder(){
-  orderItems.sort((a,b)=>a.correct-b.correct);
-  renderOrderList();
-  document.querySelectorAll('.order-item').forEach(li=>li.classList.add('correct'));
-  document.getElementById('orderFeedback').textContent = "Ось правильний порядок подій.";
 }
 
 function renderStep(){
